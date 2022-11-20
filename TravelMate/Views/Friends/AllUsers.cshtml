@@ -1,0 +1,37 @@
+﻿@model IEnumerable<UserViewModel>
+
+@{
+    ViewBag.Title = "Add a new Photo";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Email</td>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>
+                    <form asp-action="AddFriend" asp-controller="Friends" method="post">
+                        <input name="friendId" type="hidden" value="@user.Id" />
+                        <button class="btn btn-success">AddFriend</button>
+                    </form>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+<form asp-action="Add" asp-controller="Product" method="post">
+    <button class="btn btn-success">Add new product</button>
+</form>
