@@ -1,30 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TravelMate.Infrastructure.Data.Enums;
 
 namespace TravelMate.Infrastructure.Data
 {
-    public class Notification
+    public class Like
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public NotificationType NotificationType { get; set; }
+        public int PostId { get; set; }
 
         [Required]
-        public string Description { get; set; } = null!;
+        [ForeignKey(nameof(PostId))]
+        public Post Post { get; set; } = null!;
 
         [Required]
         public string UserId { get; set; } = null!;
 
+        [Required]
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; } = null!;
 
-        [Required]
-        public string SenderId { get; set; } = null!;
-
-        [Required]
-        public bool IsRead { get; set; } = false;
     }
 }

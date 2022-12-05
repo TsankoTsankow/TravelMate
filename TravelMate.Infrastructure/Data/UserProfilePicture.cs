@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace TravelMate.Infrastructure.Data
 {
-    public class UserPhoto
+    public class UserProfilePicture
     {
         [Key]
         public int Id { get; set; }

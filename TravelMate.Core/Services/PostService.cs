@@ -46,7 +46,7 @@ namespace TravelMate.Core.Services
                 await photo.Photo.CopyToAsync(stream);
             }
 
-            var userPhoto = new UserPhoto()
+            var userPhoto = new UserProfilePicture()
             {
                 Name = photoName,
                 Type = type,
@@ -70,10 +70,10 @@ namespace TravelMate.Core.Services
 
                 var post = new Post()
                 {
-                    PostTime = DateTime.Now,
+                    CreatedOn = DateTime.Now,
                     Content = model.Content,
-                    UserId = userId,
-                    User = user
+                    AuthorId = userId,
+                    Author = user
                 };
 
                 List<Photo> photos = new List<Photo>();
@@ -156,12 +156,12 @@ namespace TravelMate.Core.Services
         public async Task<IEnumerable<PostViewModel>> GetAllPosts(string UserId)
         {
             var posts = await context.Posts
-                .Where(posts => posts.UserId == UserId)
-                .OrderByDescending(p => p.PostTime)
+                .Where(posts => posts.AuthorId == UserId)
+                .OrderByDescending(p => p.CreatedOn)
                 .Select(post => new PostViewModel()
                 {
                     Id = post.Id,
-                    PostTime = post.PostTime,
+                    PostTime = post.CreatedOn,
                     Content = post.Content,
                     Photos = post.Photos.Select(p => new PhotoViewModel()
                     {
