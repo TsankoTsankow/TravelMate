@@ -7,7 +7,7 @@ namespace TravelMate.Core.Contracts
     {
         Task CreatePost(PostViewModel post, string userId);
         Task<IEnumerable<PostViewModel>> GetAllPosts(string userId);
-        Task AddPhotoToFolder(AddPhotoViewModel photo, string userId);
+        //Task AddPhotoToFolder(AddPhotoViewModel photo, string userId);
         Task<IEnumerable<DisplayPhotoViewModel>> DisplayUserGallery(string userId);
     }
 }

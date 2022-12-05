@@ -21,45 +21,44 @@ namespace TravelMate.Core.Services
             hostingEnv = _hostingEnv;
         }
 
-        public async Task AddPhotoToFolder(AddPhotoViewModel photo, string userId)
-        {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        //public async Task AddPhotoToFolder(AddPhotoViewModel photo, string userId)
+        //{
+        //    var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user is null)
-            {
-                throw new Exception("no such user");
-            }
+        //    if (user is null)
+        //    {
+        //        throw new Exception("no such user");
+        //    }
 
-            var FileDir = "Images";
-            string FilePath = Path.Combine(hostingEnv.WebRootPath, FileDir);
+        //    var FileDir = "Images";
+        //    string FilePath = Path.Combine(hostingEnv.WebRootPath, FileDir);
 
-            var photoName = Path.GetFileNameWithoutExtension(photo.Photo.FileName);
-            var photoExtension = Path.GetExtension(photo.Photo.FileName);
-            var type = photo.Photo.ContentType;
-            var fileName = photoName + DateTime.Now.ToString("MMddyyyyHHmmss") + photoExtension;
+        //    var photoName = Path.GetFileNameWithoutExtension(photo.Photo.FileName);
+        //    var photoExtension = Path.GetExtension(photo.Photo.FileName);
+        //    var type = photo.Photo.ContentType;
+        //    var fileName = photoName + DateTime.Now.ToString("MMddyyyyHHmmss") + photoExtension;
 
-            var filePath = Path.Combine(FilePath, fileName);
-            var photoUrl = Path.Combine(FileDir, fileName);
+        //    var filePath = Path.Combine(FilePath, fileName);
+        //    var photoUrl = Path.Combine(FileDir, fileName);
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await photo.Photo.CopyToAsync(stream);
-            }
+        //    using (var stream = new FileStream(filePath, FileMode.Create))
+        //    {
+        //        await photo.Photo.CopyToAsync(stream);
+        //    }
 
-            var userPhoto = new UserProfilePicture()
-            {
-                Name = photoName,
-                Type = type,
-                Extension = photoExtension,
-                UserId = userId,    
-                User = user,
-                PhotoUrl = photoUrl,
-                DateAdded = DateTime.Now
-            };
+        //    var userPhoto = new UserProfilePicture()
+        //    {
+        //        Name = photoName,
+        //        UserId = userId,
+        //        User = user,
+        //        PhotoUrl = photoUrl,
+        //        DateAdded = DateTime.Now,
+        //        IsDeleted = false                
+        //    };
 
-            await context.UserPhotos.AddAsync(userPhoto);
-            await context.SaveChangesAsync();
-        }
+        //    await context.PostPhotos.AddAsync(userPhoto);
+        //    await context.SaveChangesAsync();
+        //}
 
         public async Task CreatePost(PostViewModel model, string userId)
         {
@@ -76,7 +75,7 @@ namespace TravelMate.Core.Services
                     Author = user
                 };
 
-                List<Photo> photos = new List<Photo>();
+                List<PostPhoto> photos = new List<PostPhoto>();
 
                 if (model.Files != null && model.Files.Count > 0)
                 {
@@ -112,10 +111,10 @@ namespace TravelMate.Core.Services
 
                                 if (formFile.Length <= 2097152)
                                 {
-                                    var newPhoto = new Photo()
+                                    var newPhoto = new PostPhoto()
                                     {
-                                        Bytes = memoryStream.ToArray(),
-                                        FileExtension = fileExtension
+                                        //Bytes = memoryStream.ToArray(),
+                                        //FileExtension = fileExtension
                                     };
 
                                     photos.Add(newPhoto);
@@ -140,8 +139,8 @@ namespace TravelMate.Core.Services
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-            var gallery = await context.UserPhotos
-                .Where(u => u.User == user)
+            var gallery = await context.PostPhotos.Include(p => p.Post)
+                .Where(u => u.Post.AuthorId == userId)
                 .Select(up => new DisplayPhotoViewModel()
                 {
                     Id = up.Id,
@@ -166,9 +165,9 @@ namespace TravelMate.Core.Services
                     Photos = post.Photos.Select(p => new PhotoViewModel()
                     {
                         Id = p.Id,
-                        Bytes = p.Bytes,
-                        FileExtension = p.FileExtension
-                    }).ToList()
+
+                    })
+                    .ToList()
                 })
                 .ToListAsync();
 

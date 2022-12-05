@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TravelMate.Infrastructure.Data;
+using TravelMate.Infrastructure.Data.Configuration;
 
 namespace TravelMate.Data
 {
@@ -14,26 +15,24 @@ namespace TravelMate.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<UserFriendship>(b =>
-            {
-                b.HasKey(k => new {k.UserId, k.UserFriendId});
-
-                b.HasOne(x => x.User)
-                .WithMany(x => x.Friends)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-                b.HasOne(x => x.UserFriend)
-                .WithMany()
-                .HasForeignKey(x => x.UserFriendId)
-                .OnDelete(DeleteBehavior.Restrict);
-            });
+            builder.ApplyConfiguration(new MessageConfiguration());
+            builder.ApplyConfiguration(new UserFriendshipConfiguration());
 
             base.OnModelCreating(builder);
         }
 
         public DbSet<Post> Posts { get; set; }
-        public DbSet<Photo> Photos { get; set; }
-        public DbSet<UserProfilePicture> UserPhotos { get; set; }
+        public DbSet<PostPhoto> PostPhotos { get; set; }
+        public DbSet<UserProfilePicture> UserProfilePicture { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<UserFriendship> UserFriendships { get; set; }
+
+
     }
 }

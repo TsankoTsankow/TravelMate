@@ -124,7 +124,7 @@ namespace TravelMate.Core.Services
 
             var notification = new Notification()
             {
-                NotificationTypeId = 1,
+                
                 //NotificationType = "Friend request",
                 Description = $"{user.UserName} wants to add you as a friend",
                 UserId = friendId,

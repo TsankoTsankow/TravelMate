@@ -79,7 +79,7 @@ namespace TravelMate.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await postService.AddPhotoToFolder(model, userId);
+            //await postService.AddPhotoToFolder(model, userId);
 
             return RedirectToAction(nameof(Gallery));
         }

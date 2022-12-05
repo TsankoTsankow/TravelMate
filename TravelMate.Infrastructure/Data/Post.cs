@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static TravelMate.Infrastructure.Data.Constants.EntityConstants;
 
 namespace TravelMate.Infrastructure.Data
 {
@@ -10,7 +11,8 @@ namespace TravelMate.Infrastructure.Data
 
         [Required]
         public DateTime CreatedOn { get; set; }
-                
+
+        [MaxLength(PostContentMaxLength)]
         public string? Content { get; set; }
 
         [Required]
@@ -19,7 +21,7 @@ namespace TravelMate.Infrastructure.Data
         [ForeignKey(nameof(AuthorId))]
         public ApplicationUser Author { get; set; } = null!;
 
-        public List<Photo>? Photos { get; set; } = new List<Photo>();
+        public List<PostPhoto> Photos { get; set; } = new List<PostPhoto>();
 
         [Required]
         public int CategoryId { get; set; }
@@ -33,9 +35,9 @@ namespace TravelMate.Infrastructure.Data
         [Required]
         public Country Country { get; set; } = null!;
 
-        public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public ICollection<Like>? Likes { get; set; } = new HashSet<Like>();
+        public ICollection<Like> Likes { get; set; } = new List<Like>();
 
 
     }

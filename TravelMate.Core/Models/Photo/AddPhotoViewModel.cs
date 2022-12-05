@@ -13,15 +13,7 @@ namespace TravelMate.Core.Models.Photo
         [Required]
         public string Name { get; set; } = null!;
 
-        //[Required]
-        //public string Type{ get; set; } = null!;
-
-        //[Required]
-        //public string  Extension { get; set; } = null!;
-
-        //[Required]
-        //public string UserId { get; set; } = null!;
-
+        
         [Required]
         public IFormFile Photo { get; set; } = null!;
     }

@@ -17,13 +17,7 @@ namespace TravelMate.Infrastructure.Data
 
         [Required]
         public string Name { get; set; } = null!;
-
-        [Required]
-        public string Type { get; set; } = null!;
-
-        [Required]
-        public string Extension { get; set; } = null!;
-
+                
         [Required]
         public string UserId { get; set; } = null!;
 
@@ -36,6 +30,8 @@ namespace TravelMate.Infrastructure.Data
 
         [Required]
         public string PhotoUrl { get; set; } = null!;
+
+        public bool IsDeleted { get; set; } = false;
 
     }
 }

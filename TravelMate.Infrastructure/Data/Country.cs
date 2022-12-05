@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static TravelMate.Infrastructure.Data.Constants.EntityConstants;
 
 namespace TravelMate.Infrastructure.Data
 {
@@ -9,11 +10,11 @@ namespace TravelMate.Infrastructure.Data
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(CountryNameMaxLength)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [MaxLength(15000)]
+        [MaxLength(CountryDescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
         [Required]

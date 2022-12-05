@@ -10,17 +10,13 @@ using System.Threading.Tasks;
 
 namespace TravelMate.Infrastructure.Data
 {
-    public class Photo
+    public class PostPhoto
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(2097152)]
-        public Byte[] Bytes { get; set; }
-
-        [Required]
-        public string FileExtension { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         [Required]
         public int PostId { get; set; }
@@ -28,6 +24,13 @@ namespace TravelMate.Infrastructure.Data
         [ForeignKey(nameof(PostId))]
         public Post Post { get; set; } = null!;
 
+        [Required]
+        public DateTime DateAdded { get; set; }
+
+        [Required]
+        public string PhotoUrl { get; set; } = null!;
+
+        public bool IsDeleted { get; set; } = false;
 
     }
 }

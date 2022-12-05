@@ -12,7 +12,7 @@ using TravelMate.Data;
 namespace TravelMate.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221120100839_InitialMigration")]
+    [Migration("20221205155649_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,9 @@ namespace TravelMate.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -179,6 +182,21 @@ namespace TravelMate.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Information")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -226,7 +244,7 @@ namespace TravelMate.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TravelMate.Infrastructure.Data.Photo", b =>
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -234,23 +252,179 @@ namespace TravelMate.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte[]>("Bytes")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(2097152)
-                        .HasColumnType("varbinary(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
-                    b.Property<string>("FileExtension")
+                    b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Photos");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Like", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1500)
+                        .HasColumnType("nvarchar(1500)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NotificationType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.Post", b =>
@@ -261,21 +435,87 @@ namespace TravelMate.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PostTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
+                    b.Property<string>("AuthorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.PostPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostPhotos");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Regions");
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.UserFriendship", b =>
@@ -290,10 +530,10 @@ namespace TravelMate.Infrastructure.Migrations
 
                     b.HasIndex("UserFriendId");
 
-                    b.ToTable("UserFriendship");
+                    b.ToTable("UserFriendships");
                 });
 
-            modelBuilder.Entity("TravelMate.Infrastructure.Data.UserPhoto", b =>
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.UserProfilePicture", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -304,9 +544,8 @@ namespace TravelMate.Infrastructure.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Extension")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -316,19 +555,16 @@ namespace TravelMate.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.ToTable("UserPhotos");
+                    b.ToTable("UserProfilePicture");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -382,7 +618,113 @@ namespace TravelMate.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TravelMate.Infrastructure.Data.Photo", b =>
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Comment", b =>
+                {
+                    b.HasOne("TravelMate.Infrastructure.Data.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Country", b =>
+                {
+                    b.HasOne("TravelMate.Infrastructure.Data.Region", "Region")
+                        .WithMany("Counries")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Like", b =>
+                {
+                    b.HasOne("TravelMate.Infrastructure.Data.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Message", b =>
+                {
+                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "Author")
+                        .WithMany("SentMessages")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "Receiver")
+                        .WithMany("ReceivedMessages")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Receiver");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Notification", b =>
+                {
+                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Post", b =>
+                {
+                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "Author")
+                        .WithMany("Posts")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TravelMate.Infrastructure.Data.Category", "PostCategory")
+                        .WithMany("Posts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TravelMate.Infrastructure.Data.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("PostCategory");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.PostPhoto", b =>
                 {
                     b.HasOne("TravelMate.Infrastructure.Data.Post", "Post")
                         .WithMany("Photos")
@@ -391,17 +733,6 @@ namespace TravelMate.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("TravelMate.Infrastructure.Data.Post", b =>
-                {
-                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.UserFriendship", b =>
@@ -423,11 +754,11 @@ namespace TravelMate.Infrastructure.Migrations
                     b.Navigation("UserFriend");
                 });
 
-            modelBuilder.Entity("TravelMate.Infrastructure.Data.UserPhoto", b =>
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.UserProfilePicture", b =>
                 {
                     b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("ProfilePicture")
+                        .HasForeignKey("TravelMate.Infrastructure.Data.UserProfilePicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -436,12 +767,40 @@ namespace TravelMate.Infrastructure.Migrations
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.ApplicationUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Friends");
+
+                    b.Navigation("Likes");
+
+                    b.Navigation("Notifications");
+
+                    b.Navigation("Posts");
+
+                    b.Navigation("ProfilePicture");
+
+                    b.Navigation("ReceivedMessages");
+
+                    b.Navigation("SentMessages");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Category", b =>
+                {
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.Post", b =>
                 {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
+
                     b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Region", b =>
+                {
+                    b.Navigation("Counries");
                 });
 #pragma warning restore 612, 618
         }
