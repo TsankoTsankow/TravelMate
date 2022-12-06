@@ -17,6 +17,8 @@ namespace TravelMate.Data
         {
             builder.ApplyConfiguration(new MessageConfiguration());
             builder.ApplyConfiguration(new UserFriendshipConfiguration());
+            builder.ApplyConfiguration(new CommentConfiguration());
+            builder.ApplyConfiguration(new LikeConfiguration());
 
             base.OnModelCreating(builder);
         }
