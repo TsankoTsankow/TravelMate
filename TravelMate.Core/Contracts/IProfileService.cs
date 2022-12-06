@@ -10,5 +10,7 @@ namespace TravelMate.Core.Contracts
     public interface IProfileService
     {
         Task<ProfileViewModel> DisplayProfileById(string Id);
+
+        Task Edit(string Id, ProfileViewModel model);
     }
 }

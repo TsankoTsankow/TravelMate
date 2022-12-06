@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +37,33 @@ namespace TravelMate.Core.Services
                 .FirstAsync();
 
             return profile;
+        }
+
+        public async Task Edit(string userId, ProfileViewModel model)
+        {
+            var user = await context.Users.FirstAsync(u => u.Id == userId);
+
+            user.Information = model.Information;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.ProfilePictureUrl = model.ProfilePictureUrl;
+            if (model.BirthDate != null)
+            {
+                user.BirthDate = dateConvert(model.BirthDate);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        private DateTime dateConvert(string date)
+        {
+            DateTime result;
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            string format = "d";
+
+            result = DateTime.ParseExact(date, format, provider);
+
+            return result;
         }
     }
 }
