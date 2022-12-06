@@ -25,7 +25,6 @@ namespace TravelMate.Data
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostPhoto> PostPhotos { get; set; }
-        public DbSet<UserProfilePicture> UserProfilePicture { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Country> Countries { get; set; }

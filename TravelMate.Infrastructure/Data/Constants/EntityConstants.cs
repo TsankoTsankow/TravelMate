@@ -8,6 +8,7 @@
         public const int UserLastNameMinLength = 2;
 
         public const int UserInformationMaxLength = 2000;
+        public const int UserInformationMinLength = 10;
 
         public const int CategoryNameMaxLength = 50;
         public const int CategoryDescriptionMaxLength = 2000;

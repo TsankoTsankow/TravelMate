@@ -9,6 +9,7 @@ namespace TravelMate.Extension
         {
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProfileService, ProfileService>();
 
             return services;
         }

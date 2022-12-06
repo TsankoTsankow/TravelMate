@@ -17,7 +17,7 @@ namespace TravelMate.Infrastructure.Data
         [MaxLength(UserInformationMaxLength)]
         public string? Information { get; set; }
 
-        public UserProfilePicture? ProfilePicture { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
         public bool IsDeleted { get; set; } = false;
 
