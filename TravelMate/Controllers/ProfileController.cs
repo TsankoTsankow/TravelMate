@@ -42,7 +42,7 @@ namespace TravelMate.Controllers
 
             await profileService.Edit(User.Id(), model);
 
-            return RedirectToAction("ViewProfile");
+            return RedirectToAction("ViewProfile", "Profile", (User.Id()));
         }
     }
 }

@@ -23,5 +23,7 @@ namespace TravelMate.Infrastructure.Data
         [Required]
         [ForeignKey(nameof(RegionId))]
         public Region Region { get; set; } = null!;
+
+        public IEnumerable<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     }
 }
