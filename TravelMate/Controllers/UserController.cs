@@ -88,7 +88,7 @@ namespace Library.Controllers
                 return View(model);
             }
 
-            var user = await userManager.FindByNameAsync(model.UserName);
+            var user = await userManager.FindByEmailAsync(model.Email);
 
             if (user != null)
             {
@@ -110,7 +110,7 @@ namespace Library.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return Redirect("~/Identity/Account/Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

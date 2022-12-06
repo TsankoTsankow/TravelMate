@@ -12,9 +12,9 @@
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="text-center mb-3">
-                    <label asp-for="@Model.UserName" class="form-label"></label>
-                    <input asp-for="@Model.UserName" class="form-control" autocomplete="username" aria-required="true" />
-                    <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+                    <label asp-for="@Model.Email" class="form-label"></label>
+                    <input asp-for="@Model.Email" class="form-control" autocomplete="username" aria-required="true" />
+                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
                 </div>
                 <div class="text-center mb-3">
                     <label asp-for="@Model.Password" class="form-label"></label>
@@ -25,6 +25,18 @@
                     <button id="login-submit" type="submit" class="btn btn-primary">Log in</button>
                 </div>
             </form>
+        </section>
+    </div>
+</div>
+
+<br />
+<hr />
+<br />
+<div class="row justify-content-md-center">
+    <div class="text-center mb-3" >
+        <section>
+        <h6>Not registered yet?</h6>
+        <input type="button" class="btn btn-outline-primary" value="Create an account" onclick="location.href='@Url.Action("Register", "User")'" />
         </section>
     </div>
 </div>
