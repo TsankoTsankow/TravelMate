@@ -60,7 +60,7 @@ namespace TravelMate.Controllers
 
             await profileService.Edit(User.Id(), model);
 
-            return RedirectToAction("ViewProfile", "Profile", (User.Id()));
+            return RedirectToAction("ViewMyProfile");
         }
     }
 }

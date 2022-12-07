@@ -26,13 +26,23 @@
                 <input class="form-control " autocomplete="dd/mm/yyyy" aria-required="true" asp-for="@Model.BirthDate" />
                 <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
             </div>
+            <div class="mb-3">
+                <label asp-for="@Model.CountryId" class="form-label">Country</label>
+                <select asp-for="@Model.CountryId" class="form-control">
+                    @foreach (var country in Model.Countries)
+                    {
+                        <option value="@country.Id">@country.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.Information">About you</label>
                 <input class="form-control" autocomplete="information" aria-required="true" asp-for="@Model.Information" />
                 <span asp-validation-for="@Model.Information" class="text-danger"></span>
             </div>
             <div class="text-center mb-3">
-                <label asp-for="@Model.ProfilePicture" class="control-label">Photos</label>
+                <label asp-for="@Model.ProfilePicture" class="control-label">Profile Picture</label>
                 <input asp-for="@Model.ProfilePicture" accept="image/*" />
                 <span asp-validation-for="@Model.ProfilePicture" class="text-danger"></span>
             </div>
