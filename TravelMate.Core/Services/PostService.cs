@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Photo;
 using TravelMate.Core.Models.Post;
-using TravelMate.Data;
 using TravelMate.Infrastructure.Data;
 
 namespace TravelMate.Core.Services

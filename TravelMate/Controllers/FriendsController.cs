@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Security.Claims;
 using TravelMate.Core.Contracts;
-using TravelMate.Core.Services;
 
 namespace TravelMate.Controllers
 {

@@ -3,9 +3,14 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>Welcome to Travel Mate</h1>
-<h3>The place where you can share all your travelling experiences!</h3>
+<div class="text-center mb-3">
+    <h1>Welcome to Travel Mate</h1>
+    <h3>The place where you can share all your travelling experiences!</h3>
+</div>
 
+<br />
+<hr />
+<br />
 
 <h2 class="text-center">@ViewData["Title"]</h2>
 <div class="row">
@@ -36,10 +41,10 @@
 <hr />
 <br />
 <div class="row justify-content-md-center">
-    <div class="text-center mb-3" >
+    <div class="text-center mb-3">
         <section>
-        <h6>Not registered yet?</h6>
-        <input type="button" class="btn btn-outline-primary" value="Create an account" onclick="location.href='@Url.Action("Register", "User")'" />
+            <h6>Not registered yet?</h6>
+            <input type="button" class="btn btn-outline-primary" value="Create an account" onclick="location.href='@Url.Action("Register", "User")'" />
         </section>
     </div>
 </div>

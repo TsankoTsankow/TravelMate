@@ -1,22 +1,27 @@
-﻿using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Profile;
-using TravelMate.Extensions;
+using TravelMate.Core.Services;
+using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
     public class ProfileController : Controller
     {
         private readonly IProfileService profileService;
+        private readonly ICountryService countryService;
 
-        public ProfileController(IProfileService _profileService)
+        public ProfileController(IProfileService _profileService,
+            ICountryService _countryService)
         {
             this.profileService = _profileService;
+            this.countryService = _countryService;
         }
 
-        public async Task<IActionResult> ViewProfile(string Id)
+        public async Task<IActionResult> ViewMyProfile()
         {
+            string Id = User.Id();
+
             var model = await profileService.DisplayProfileById(Id);
 
             return View(model);
@@ -27,13 +32,26 @@ namespace TravelMate.Controllers
         {
             var userId = User.Id();
 
-            var model = await profileService.DisplayProfileById(userId);
+            var user = await profileService.DisplayProfileById(userId);
+            var countries = await countryService.GetAllCountries();
+
+            var model = new EditProfileViewModel()
+            {
+                UserId = userId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                CountryId = user.CountryId,
+                Countries = countries,
+                Information = user.Information, 
+
+            };
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ProfileViewModel model)
+        public async Task<IActionResult> Edit(EditProfileViewModel model)
         {
             if (!ModelState.IsValid)
             {

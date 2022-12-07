@@ -5,12 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TravelMate.Core.Models.CountryModels;
 using TravelMate.Infrastructure.Data;
 using static TravelMate.Infrastructure.Data.Constants.EntityConstants;
 
 namespace TravelMate.Core.Models.Profile
 {
-    public class ProfileViewModel
+    public class EditProfileViewModel
     {
         public string UserId { get; set; } = null!;
 
@@ -27,10 +28,13 @@ namespace TravelMate.Core.Models.Profile
         public string? BirthDate { get; set; }
 
         [MaxLength(UserInformationMaxLength)]
-        [Display(Name = "First Name")]
+        [Display(Name = "User Information")]
         public string? Information { get; set; }
-                
-        public string? ProfilePictureUrl { get; set; }
+
+        public int? CountryId { get; set; }
+
+
+        public IEnumerable<CountryUserViewModel> Countries { get; set; } = new List<CountryUserViewModel>();
 
         public IFormFile? ProfilePicture { get; set; }
     }

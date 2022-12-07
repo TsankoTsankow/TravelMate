@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TravelMate.Infrastructure.Data;
 using TravelMate.Infrastructure.Data.Configuration;
 
-namespace TravelMate.Data
+namespace TravelMate.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -19,6 +18,12 @@ namespace TravelMate.Data
             builder.ApplyConfiguration(new UserFriendshipConfiguration());
             builder.ApplyConfiguration(new CommentConfiguration());
             builder.ApplyConfiguration(new LikeConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
+            builder.ApplyConfiguration(new RegionConfiguration());
+            builder.ApplyConfiguration(new CountryConfiguration());
+
 
             base.OnModelCreating(builder);
         }

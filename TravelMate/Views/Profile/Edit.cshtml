@@ -1,4 +1,4 @@
-﻿@model ProfileViewModel
+﻿@model EditProfileViewModel
 @{
     ViewData["Title"] = "Edit your profile";
 }
@@ -31,7 +31,6 @@
                 <input class="form-control" autocomplete="information" aria-required="true" asp-for="@Model.Information" />
                 <span asp-validation-for="@Model.Information" class="text-danger"></span>
             </div>
-            <input type="hidden" aria-required="true" asp-for="@Model.ProfilePictureUrl" />
             <div class="text-center mb-3">
                 <label asp-for="@Model.ProfilePicture" class="control-label">Photos</label>
                 <input asp-for="@Model.ProfilePicture" accept="image/*" />

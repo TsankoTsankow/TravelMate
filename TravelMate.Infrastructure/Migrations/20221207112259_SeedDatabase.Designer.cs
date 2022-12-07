@@ -12,8 +12,8 @@ using TravelMate.Infrastructure.Data;
 namespace TravelMate.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221206073312_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20221207112259_SeedDatabase")]
+    partial class SeedDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,22 @@ namespace TravelMate.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1bd9abc0-c646-4848-b216-3685875a303b",
+                            ConcurrencyStamp = "300b2afd-b7ea-413d-aee4-20f444159418",
+                            Name = "Admin",
+                            NormalizedName = "admin"
+                        },
+                        new
+                        {
+                            Id = "e571299a-b482-4d73-becc-33e93c51ad05",
+                            ConcurrencyStamp = "96026e09-f269-4065-8f54-136785dab507",
+                            Name = "TravelGuru",
+                            NormalizedName = "travelguru"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -138,6 +154,18 @@ namespace TravelMate.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "9717154f-b1cc-44e4-a23b-7dcfdea11eb1",
+                            RoleId = "1bd9abc0-c646-4848-b216-3685875a303b"
+                        },
+                        new
+                        {
+                            UserId = "0dfd8f1e-fba5-4db7-82a7-0ba2e5cc6a09",
+                            RoleId = "e571299a-b482-4d73-becc-33e93c51ad05"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -175,6 +203,9 @@ namespace TravelMate.Infrastructure.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -221,6 +252,9 @@ namespace TravelMate.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -233,6 +267,8 @@ namespace TravelMate.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CountryId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -242,6 +278,100 @@ namespace TravelMate.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2022, 12, 7, 13, 22, 59, 252, DateTimeKind.Local).AddTicks(9905),
+                            ConcurrencyStamp = "fce8523a-ffca-4082-92b6-f95da52282ed",
+                            CountryId = 1,
+                            Email = "stamat@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Stamat",
+                            Information = "I love to travel in the mountains of Europe",
+                            IsDeleted = false,
+                            LastName = "Petrov",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "stamat@mail.com",
+                            NormalizedUserName = "stamat",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOnT6ZU+vkJ63fgoRkjEtrJNOtf77cpM35HPctDsImnNAXY9a3eINayYpdceLyeQAg==",
+                            PhoneNumberConfirmed = false,
+                            ProfilePictureUrl = "https://i.pinimg.com/originals/d9/56/9b/d9569bbed4393e2ceb1af7ba64fdf86a.jpg",
+                            SecurityStamp = "bb34bab7-3c78-475b-af5a-fbfc120ca164",
+                            TwoFactorEnabled = false,
+                            UserName = "Stamat"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2022, 12, 7, 13, 22, 59, 254, DateTimeKind.Local).AddTicks(4955),
+                            ConcurrencyStamp = "ffb7bd9c-5778-4130-a976-519305bc6bdc",
+                            CountryId = 2,
+                            Email = "gosho@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Gosho",
+                            Information = "I am looking forward to visiting all the oceans of the world!",
+                            IsDeleted = false,
+                            LastName = "Ivanov",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "gosho@mail.com",
+                            NormalizedUserName = "gosho",
+                            PasswordHash = "AQAAAAEAACcQAAAAELIh8KvS4CYOhmsOsZ0UQHqCxap1M2QyzUVXfK/FvPRnUtNOs9Rgwqa7Qb1imY2PWQ==",
+                            PhoneNumberConfirmed = false,
+                            ProfilePictureUrl = "https://thumbs.dreamstime.com/b/profile-picture-vector-perfect-social-media-other-web-use-125320944.jpg",
+                            SecurityStamp = "39776bb6-a71e-4b72-a0e0-a53ad074e8c9",
+                            TwoFactorEnabled = false,
+                            UserName = "Gosho"
+                        },
+                        new
+                        {
+                            Id = "0dfd8f1e-fba5-4db7-82a7-0ba2e5cc6a09",
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2022, 12, 7, 13, 22, 59, 255, DateTimeKind.Local).AddTicks(9322),
+                            ConcurrencyStamp = "81d211c6-e1de-4716-baf4-cd72f0fadbe1",
+                            CountryId = 3,
+                            Email = "stanka@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Stanka",
+                            Information = "I love to travel to all the beautiful cities in the world and meet all the great people there!",
+                            IsDeleted = false,
+                            LastName = "Petrova",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "stanka@mail.com",
+                            NormalizedUserName = "stanka",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJRxOirl8EfuWjKywCo0lJvSYpH4ZnhqFXpNGmn941fp9nn6JOyrD5TKhUCvb+U3OA==",
+                            PhoneNumberConfirmed = false,
+                            ProfilePictureUrl = "https://pub-static.fotor.com/assets/projects/pages/d5bdd0513a0740a8a38752dbc32586d0/fotor-03d1a91a0cec4542927f53c87e0599f6.jpg",
+                            SecurityStamp = "423ce27c-ce2c-4752-b3a5-0b8c35126ddc",
+                            TwoFactorEnabled = false,
+                            UserName = "Stanka"
+                        },
+                        new
+                        {
+                            Id = "9717154f-b1cc-44e4-a23b-7dcfdea11eb1",
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2022, 12, 7, 13, 22, 59, 257, DateTimeKind.Local).AddTicks(3793),
+                            ConcurrencyStamp = "1ba7ed31-9a08-4e05-8fe8-1430452bf828",
+                            CountryId = 1,
+                            Email = "admin@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Ivan",
+                            Information = "I want to create the best plarform for travellers in the world!",
+                            IsDeleted = false,
+                            LastName = "Ivanov",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "admin@mail.com",
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHzOY++9kMARk/+pQU56UOru6Xmo00hYuyq4vOmFe0H2eLMmyTIGaUldJfO+lbrHCg==",
+                            PhoneNumberConfirmed = false,
+                            ProfilePictureUrl = "https://thumbs.dreamstime.com/b/profile-picture-vector-perfect-social-media-other-web-use-125320944.jpg",
+                            SecurityStamp = "d5bb0c44-a76d-48f9-b2e7-7c1eb75a6f73",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.Category", b =>
@@ -328,6 +458,29 @@ namespace TravelMate.Infrastructure.Migrations
                     b.HasIndex("RegionId");
 
                     b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "The best place to live in. Lots of mountains, beautiful seaside, lovely food and amazing people.",
+                            Name = "Bulgaria",
+                            RegionId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "History, culture, fine dining, crystal-clear water, endless beaches - you can find all that here.",
+                            Name = "Greece",
+                            RegionId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "The country of endless possibilities, what you can think of - you can find it here",
+                            Name = "USA",
+                            RegionId = 2
+                        });
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.Like", b =>
@@ -516,6 +669,20 @@ namespace TravelMate.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "The old continent - the place for culture, history, cuisine and so much more.",
+                            Name = "Europe"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "The land of diversity - nature, technology and so much more",
+                            Name = "North America"
+                        });
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.UserFriendship", b =>
@@ -531,40 +698,6 @@ namespace TravelMate.Infrastructure.Migrations
                     b.HasIndex("UserFriendId");
 
                     b.ToTable("UserFriendships");
-                });
-
-            modelBuilder.Entity("TravelMate.Infrastructure.Data.UserProfilePicture", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhotoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserProfilePicture");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -616,6 +749,15 @@ namespace TravelMate.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.ApplicationUser", b =>
+                {
+                    b.HasOne("TravelMate.Infrastructure.Data.Country", "Country")
+                        .WithMany("Users")
+                        .HasForeignKey("CountryId");
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.Comment", b =>
@@ -754,17 +896,6 @@ namespace TravelMate.Infrastructure.Migrations
                     b.Navigation("UserFriend");
                 });
 
-            modelBuilder.Entity("TravelMate.Infrastructure.Data.UserProfilePicture", b =>
-                {
-                    b.HasOne("TravelMate.Infrastructure.Data.ApplicationUser", "User")
-                        .WithOne("ProfilePicture")
-                        .HasForeignKey("TravelMate.Infrastructure.Data.UserProfilePicture", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TravelMate.Infrastructure.Data.ApplicationUser", b =>
                 {
                     b.Navigation("Comments");
@@ -777,8 +908,6 @@ namespace TravelMate.Infrastructure.Migrations
 
                     b.Navigation("Posts");
 
-                    b.Navigation("ProfilePicture");
-
                     b.Navigation("ReceivedMessages");
 
                     b.Navigation("SentMessages");
@@ -787,6 +916,11 @@ namespace TravelMate.Infrastructure.Migrations
             modelBuilder.Entity("TravelMate.Infrastructure.Data.Category", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("TravelMate.Infrastructure.Data.Country", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("TravelMate.Infrastructure.Data.Post", b =>

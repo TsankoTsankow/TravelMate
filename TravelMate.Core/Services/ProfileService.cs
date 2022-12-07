@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Profile;
-using TravelMate.Data;
+using TravelMate.Infrastructure.Data;
 
 namespace TravelMate.Core.Services
 {
@@ -20,33 +14,35 @@ namespace TravelMate.Core.Services
         {
             this.context = _context;
         }
-        public async Task<ProfileViewModel> DisplayProfileById(string Id)
+        public async Task<PersonalProfileViewModel> DisplayProfileById(string Id)
         {
             var profile = await context.Users
                 .Where(u => u.IsDeleted == false)
                 .Where(u => u.Id == Id)
-                .Select(u => new ProfileViewModel()
+                .Select(u => new PersonalProfileViewModel()
                 {
                     UserId = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    BirthDate = u.BirthDate.ToString(),
+                    BirthDate = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("dd/MM/yyyy") : String.Empty,
                     Information = u.Information,
+                    Country = u.Country,
                     ProfilePictureUrl = u.ProfilePictureUrl
                 })
                 .FirstAsync();
+                        
 
             return profile;
         }
 
-        public async Task Edit(string userId, ProfileViewModel model)
+        public async Task Edit(string userId, EditProfileViewModel model)
         {
             var user = await context.Users.FirstAsync(u => u.Id == userId);
 
             user.Information = model.Information;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            user.ProfilePictureUrl = model.ProfilePictureUrl;
+            user.CountryId = model.CountryId;
             if (model.BirthDate != null)
             {
                 user.BirthDate = dateConvert(model.BirthDate);

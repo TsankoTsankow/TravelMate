@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace TravelMate.Extensions
+namespace TravelMate.Extension
 {
     public static class ClaimsPrincipalExtension 
     {

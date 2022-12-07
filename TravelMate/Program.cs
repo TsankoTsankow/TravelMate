@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TravelMate.Data;
 using TravelMate.Extension;
 using TravelMate.Infrastructure.Data;
 
