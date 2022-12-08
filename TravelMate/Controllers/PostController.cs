@@ -68,6 +68,11 @@ namespace TravelMate.Controllers
         {
             var model = await postService.GetPostById(id);
 
+            if (model.AuthorId != User.Id())
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
             var categories = await categoryService.GetAllCategories();
             var countries = await countryService.GetAllCountries();
 
@@ -78,14 +83,41 @@ namespace TravelMate.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CreatePostViewModel model)
+        public async Task<IActionResult> Edit(EditPostViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View("AddPost", model);
             }
 
+            if (model.AuthorId != User.Id())
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
             await postService.Edit(model, model.Id);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await postService.GetPostInfoByPostId(id);
+
+            if (User.Id() != model.AuthorId)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, PostViewModel model)
+        {
+            
+            await postService.Delete(id);
 
             return RedirectToAction("Index", "Home");
         }

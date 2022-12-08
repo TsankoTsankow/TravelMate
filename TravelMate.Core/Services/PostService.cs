@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 using TravelMate.Core.Contracts;
-using TravelMate.Core.Models.Photo;
 using TravelMate.Core.Models.Post;
 using TravelMate.Infrastructure.Data;
 
@@ -48,7 +46,16 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task Edit(CreatePostViewModel model, int postId)
+        public async Task Delete(int postId)
+        {
+            var post = await context.Posts.FirstOrDefaultAsync(u => u.Id == postId);
+
+            post.IsDeleted = true;
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Edit(EditPostViewModel model, int postId)
         {
             var post = await context.Posts
                 .FindAsync(postId);
@@ -68,6 +75,7 @@ namespace TravelMate.Core.Services
         public async Task<IEnumerable<PostViewModel>> GetAllPostsByUserId(string userId)
         {
             var posts = await context.Posts
+                .Where(p => p.IsDeleted == false)
                 .Where(p => p.AuthorId == userId)
                 .Select(p => new PostViewModel()
                 {
@@ -87,18 +95,41 @@ namespace TravelMate.Core.Services
             return posts;
         }
 
-        public async Task<CreatePostViewModel> GetPostById(int postId)
+        public async Task<EditPostViewModel> GetPostById(int postId)
         {
             return await context.Posts
+                .Where(p => p.IsDeleted == false)
                 .Where(p => p.Id == postId)
-                .Select(p => new CreatePostViewModel()
+                .Select(p => new EditPostViewModel()
                 {
                     Id=p.Id,
                     CategoryId = p.CategoryId,
                     CountryId = p.CountryId,
                     Content = p.Content,
+                    AuthorId = p.AuthorId,
                 })
                 .FirstAsync();
+        }
+
+        public async Task<PostViewModel> GetPostInfoByPostId(int postId)
+        {
+            return await context.Posts
+               .Where(p => p.Id == postId)
+               //.Where(p => p.IsDeleted == false)
+               .Select(p => new PostViewModel()
+               {
+                   Id = p.Id,
+                   AuthorName = p.Author.UserName,
+                   AuthorId = p.AuthorId,
+                   PostTime = p.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
+                   Content = p.Content,
+                   Likes = p.Likes.Count(),
+                   Comments = p.Comments.Count(),
+                   Category = p.PostCategory.Name,
+                   PhotoUrl = p.PhotoUrl,
+                   Country = p.Country.Name
+               })
+               .FirstAsync();
         }
 
         private string? uploadPhoto(IFormFile? photo)
@@ -132,46 +163,6 @@ namespace TravelMate.Core.Services
             return photoUrl;
         }
     }
-
-
-
-    //public async Task<IEnumerable<DisplayPhotoViewModel>> DisplayUserGallery(string userId)
-    //{
-    //    var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-    //    var gallery = await context.PostPhotos.Include(p => p.Post)
-    //        .Where(u => u.Post.AuthorId == userId)
-    //        .Select(up => new DisplayPhotoViewModel()
-    //        {
-    //            Id = up.Id,
-    //            DateAdded = up.DateAdded.ToString("dd/MM/yyyy"),
-    //            ImageUrl = up.PhotoUrl,
-    //        })
-    //        .ToListAsync();
-
-    //    return gallery;
-    //}
-
-    //public async Task<IEnumerable<PostViewModel>> GetAllPosts(string UserId)
-    //{
-    //    var posts = await context.Posts
-    //        .Where(posts => posts.AuthorId == UserId)
-    //        .OrderByDescending(p => p.CreatedOn)
-    //        .Select(post => new PostViewModel()
-    //        {
-    //            Id = post.Id,
-    //            PostTime = post.CreatedOn,
-    //            Content = post.Content,
-    //            Photos = post.Photos.Select(p => new PhotoViewModel()
-    //            {
-    //                Id = p.Id,
-
-    //            })
-    //            .ToList()
-    //        })
-    //        .ToListAsync();
-
-    //    return posts;
-    //}
+        
 }
 
