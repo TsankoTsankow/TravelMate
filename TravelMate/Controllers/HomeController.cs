@@ -28,7 +28,7 @@ namespace TravelMate.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var model = await postService.GetAllPostsById(userId);
+            var model = await postService.GetAllPostsByUserId(userId);
 
             return View(model);
         }

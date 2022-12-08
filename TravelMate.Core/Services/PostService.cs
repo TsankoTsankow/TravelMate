@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Photo;
 using TravelMate.Core.Models.Post;
@@ -20,45 +21,7 @@ namespace TravelMate.Core.Services
             this.context = _context;
             this.hostingEnv = _hostingEnv;
         }
-
-        //public async Task AddPhotoToFolder(AddPhotoViewModel photo, string userId)
-        //{
-        //    var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-        //    if (user is null)
-        //    {
-        //        throw new Exception("no such user");
-        //    }
-
-        //    var FileDir = "Images";
-        //    string FilePath = Path.Combine(hostingEnv.WebRootPath, FileDir);
-
-        //    var photoName = Path.GetFileNameWithoutExtension(photo.Photo.FileName);
-        //    var photoExtension = Path.GetExtension(photo.Photo.FileName);
-        //    var type = photo.Photo.ContentType;
-        //    var fileName = photoName + DateTime.Now.ToString("MMddyyyyHHmmss") + photoExtension;
-
-        //    var filePath = Path.Combine(FilePath, fileName);
-        //    var photoUrl = Path.Combine(FileDir, fileName);
-
-        //    using (var stream = new FileStream(filePath, FileMode.Create))
-        //    {
-        //        await photo.Photo.CopyToAsync(stream);
-        //    }
-
-        //    var userPhoto = new UserProfilePicture()
-        //    {
-        //        Name = photoName,
-        //        UserId = userId,
-        //        User = user,
-        //        PhotoUrl = photoUrl,
-        //        DateAdded = DateTime.Now,
-        //        IsDeleted = false                
-        //    };
-
-        //    await context.PostPhotos.AddAsync(userPhoto);
-        //    await context.SaveChangesAsync();
-        //}
+                
 
         public async Task CreatePost(CreatePostViewModel model, string userId)
         {
@@ -85,12 +48,24 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<DisplayPhotoViewModel>> DisplayUserGallery(string userId)
+        public async Task Edit(CreatePostViewModel model, int postId)
         {
-            throw new NotImplementedException();
+            var post = await context.Posts
+                .FindAsync(postId);
+
+            post.CategoryId = model.CategoryId;
+            post.Content = model.Content;
+            post.CountryId = model.CountryId;
+            if (model.File != null)
+            {
+                post.PhotoUrl = uploadPhoto(model.File);
+            }
+
+
+            await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<PostViewModel>> GetAllPostsById(string userId)
+        public async Task<IEnumerable<PostViewModel>> GetAllPostsByUserId(string userId)
         {
             var posts = await context.Posts
                 .Where(p => p.AuthorId == userId)
@@ -110,6 +85,20 @@ namespace TravelMate.Core.Services
                 .ToListAsync();
 
             return posts;
+        }
+
+        public async Task<CreatePostViewModel> GetPostById(int postId)
+        {
+            return await context.Posts
+                .Where(p => p.Id == postId)
+                .Select(p => new CreatePostViewModel()
+                {
+                    Id=p.Id,
+                    CategoryId = p.CategoryId,
+                    CountryId = p.CountryId,
+                    Content = p.Content,
+                })
+                .FirstAsync();
         }
 
         private string? uploadPhoto(IFormFile? photo)

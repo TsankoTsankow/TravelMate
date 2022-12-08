@@ -44,6 +44,7 @@ namespace TravelMate.Core.Services
         public async Task Edit(string userId, EditProfileViewModel model)
         {
             var user = await context.Users.FirstAsync(u => u.Id == userId);
+
             user.Information = model.Information;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;

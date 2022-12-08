@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
@@ -60,6 +61,33 @@ namespace TravelMate.Controllers
                 return View(post);
             }
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await postService.GetPostById(id);
+
+            var categories = await categoryService.GetAllCategories();
+            var countries = await countryService.GetAllCountries();
+
+            model.Categories = categories;
+            model.Countries = countries;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CreatePostViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("AddPost", model);
+            }
+
+            await postService.Edit(model, model.Id);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
