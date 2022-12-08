@@ -18,7 +18,7 @@ namespace TravelMate.Core.Services
         {
             var countries = await context.Countries
                 .OrderByDescending(c => c.Name)
-                .Select(c => new CountryUserViewModel
+                .Select(c => new CountryUserViewModel()
                 {
                     Id = c.Id,
                     Name = c.Name,

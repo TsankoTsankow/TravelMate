@@ -23,6 +23,7 @@ namespace TravelMate.Infrastructure.Data
             builder.ApplyConfiguration(new UserRoleConfiguration());
             builder.ApplyConfiguration(new RegionConfiguration());
             builder.ApplyConfiguration(new CountryConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
 
 
             base.OnModelCreating(builder);
