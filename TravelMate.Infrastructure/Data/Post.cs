@@ -37,6 +37,8 @@ namespace TravelMate.Infrastructure.Data
         [Required]
         public Country Country { get; set; } = null!;
 
+        public bool IsDeleted { get; set; } = false;
+
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         public ICollection<Like> Likes { get; set; } = new List<Like>();
