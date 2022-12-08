@@ -5,9 +5,8 @@ namespace TravelMate.Core.Contracts
 {
     public interface IPostService
     {
-        Task CreatePost(PostViewModel post, string userId);
-        Task<IEnumerable<PostViewModel>> GetAllPosts(string userId);
-        //Task AddPhotoToFolder(AddPhotoViewModel photo, string userId);
+        Task CreatePost(CreatePostViewModel post, string userId);
+        Task<IEnumerable<PostViewModel>> GetAllPostsById(string userId);
         Task<IEnumerable<DisplayPhotoViewModel>> DisplayUserGallery(string userId);
     }
 }

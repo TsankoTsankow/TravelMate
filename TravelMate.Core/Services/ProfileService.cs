@@ -44,12 +44,12 @@ namespace TravelMate.Core.Services
         public async Task Edit(string userId, EditProfileViewModel model)
         {
             var user = await context.Users.FirstAsync(u => u.Id == userId);
-
             user.Information = model.Information;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.CountryId = model.CountryId;
             user.ProfilePictureUrl = uploadPhoto(model.ProfilePicture);
+
             if (model.BirthDate != null)
             {
                 user.BirthDate = dateConvert(model.BirthDate);
@@ -74,7 +74,7 @@ namespace TravelMate.Core.Services
 
             var photoUrl = Path.Combine(hostingEnv.WebRootPath, "\\Images\\", fileName);
 
-            if (photo.Length <= 1048576)
+            if (photo.Length <= 3145728)
             {
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {

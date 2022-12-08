@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TravelMate.Core.Models.Photo;
-using TravelMate.Infrastructure.Data;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TravelMate.Core.Models.Post
 {
@@ -17,50 +7,21 @@ namespace TravelMate.Core.Models.Post
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public DateTime PostTime { get; set; }
+        public string AuthorName { get; set; } = null!;
+        public string AuthorId { get; set; } = null!;
 
+        public string PostTime { get; set; } = null!;
 
         public string? Content { get; set; }
 
+        public string Category { get; set; } = null!;
 
-        public List<PhotoViewModel>? Photos { get; set; } = new List<PhotoViewModel>();
+        public string Country { get; set; } = null!;
 
-        [FromForm]
+        public string? PhotoUrl { get; set; }
 
-        public IFormFileCollection? Files { get; set; }
+        public int Likes { get; set; }
+
+        public int Comments { get; set; }
     }
 }
-
-//[Key]
-//public int Id { get; set; }
-
-//[Required]
-//public DateTime CreatedOn { get; set; }
-
-//[MaxLength(PostContentMaxLength)]
-//public string? Content { get; set; }
-
-//[Required]
-//public string AuthorId { get; set; } = null!;
-
-//[ForeignKey(nameof(AuthorId))]
-//public ApplicationUser Author { get; set; } = null!;
-
-//public List<PostPhoto> Photos { get; set; } = new List<PostPhoto>();
-
-//[Required]
-//public int CategoryId { get; set; }
-
-//[Required]
-//public Category PostCategory { get; set; } = null!;
-
-//[Required]
-//public int CountryId { get; set; }
-
-//[Required]
-//public Country Country { get; set; } = null!;
-
-//public ICollection<Comment> Comments { get; set; } = new List<Comment>();
-
-//public ICollection<Like> Likes { get; set; } = new List<Like>();

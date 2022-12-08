@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TravelMate.Infrastructure.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model PostViewModel
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.PhotoUrl" alt="Post Image">
+        <div class="card-body text-left">
+            <h4>@Model.AuthorName</h4>
+            <p> Added: <b>@Model.PostTime</b></p>
+            <p> Location: <b>@Model.Country</b></p>
+            <p> Category: <b>@Model.Category</b> </p>
+            <p>@Model.Content</p>
+            <p>Likes: <b>@Model.Likes</b></p>
+            <p>Comments: <b>@Model.Comments</b></p>
+            <br />
+            @if (UserManager.GetUserId(User) != Model.AuthorId)
+            {
+                <h6><b>Like</b></h6>
+                <h6><b>Comment</b></h6>
+                @*<a asp-area="" asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">Edit</a>
+                <a asp-area="" asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">Delete</a>
+                <p></p>
+                @if (!Model.IsRented)
+                {
+                    <form class="input-group-sm" asp-area="" asp-controller="House" asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary btn-sm" type="submit" value="Rent" />
+                    </form>
+                }
+                else
+                {
+                    <form asp-area="" asp-controller="House" asp-action="Leave" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary btn-sm" type="submit" value="Leave" />
+                    </form>
+                }*@
+            }
+            else
+            {
+                <h6><b>Edit</b></h6>
+
+            }
+        </div>
+    </div>
+</div>

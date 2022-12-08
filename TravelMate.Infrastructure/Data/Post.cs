@@ -23,6 +23,8 @@ namespace TravelMate.Infrastructure.Data
 
         public List<PostPhoto> Photos { get; set; } = new List<PostPhoto>();
 
+        public string? PhotoUrl { get; set; }
+
         [Required]
         public int CategoryId { get; set; }
 
