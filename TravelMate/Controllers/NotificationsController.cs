@@ -32,12 +32,35 @@ namespace TravelMate.Controllers
                 return RedirectToAction("ViewProfile", "Profile", new {@id = id});
             }
 
+            if (userId == id)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
             await notificationService.SendFriendRequest(userId, id);
 
             return RedirectToAction("ViewProfile", "Profile", new { @id = id });
         }
 
+        public async Task<IActionResult> AddFriend(string id)
+        {
+            var userId = User.Id();
 
+            if (await notificationService.UsersAreFriends(userId, id))
+            {
+                //throw new Exception("User is already a friend");
+                return RedirectToAction("ViewProfile", "Profile", new { @id = id });
+            }
+
+            if (userId == id)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await notificationService.AddFriend(userId, id);
+
+            return RedirectToAction("ViewProfile", "Profile", new { @id = id });
+        }
         
 
     }

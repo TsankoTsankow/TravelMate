@@ -38,11 +38,7 @@ namespace TravelMate.Core.Services
                 throw new ArgumentException("Invalid friend Id");
             }
 
-            if (user.Friends != null && user.Friends.Any(uf => uf.UserFriendId == friendId))
-            {
-                return;
-            }
-
+            
             var userFriend = new UserFriendship()
             {
                 UserId = userId,
