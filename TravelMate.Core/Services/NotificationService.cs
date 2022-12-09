@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.ApplicationUser;
+using TravelMate.Core.Models.Notifications;
 using TravelMate.Infrastructure.Data;
 using TravelMate.Infrastructure.Data.Enums;
 
@@ -95,6 +96,23 @@ namespace TravelMate.Core.Services
             }).ToListAsync();
 
             return users;
+        }
+
+        public async Task<IEnumerable<NotificationViewModel>> GetNotificationsByUserId(string id)
+        {
+            var result = await context.Notifications
+                .Where(n => n.UserId == id)
+                .Select(n => new NotificationViewModel()
+                {
+                    Id = n.Id,
+                    Description = n.Description,
+                    UserId = n.UserId,
+                    NotificationType = n.NotificationType,
+                    SenderId = n.SenderId,
+                })
+                .ToListAsync();
+
+            return result;
         }
 
         public async Task SendFriendRequest(string userId, string friendId)

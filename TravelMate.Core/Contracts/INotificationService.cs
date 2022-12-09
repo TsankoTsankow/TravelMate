@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelMate.Core.Models.ApplicationUser;
+using TravelMate.Core.Models.Notifications;
 
 namespace TravelMate.Core.Contracts
 {
@@ -16,5 +17,7 @@ namespace TravelMate.Core.Contracts
         Task SendFriendRequest(string userId, string friendId);
 
         Task<bool> UsersAreFriends(string userId, string friendId);
+
+        Task<IEnumerable<NotificationViewModel>> GetNotificationsByUserId(string id);
     }
 }

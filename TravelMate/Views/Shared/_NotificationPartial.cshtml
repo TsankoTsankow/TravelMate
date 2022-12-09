@@ -1,0 +1,30 @@
+﻿@model NotificationViewModel
+
+
+<div class="row">
+    <div class="col-md-8">
+        <h4>@Model.Description</h4>
+    </div>
+    @if (Model.NotificationType == 0)
+    {
+        <div class="col-md-4">
+            <div>
+                <form asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.SenderId" method="post">
+                    <input class="btn btn-primary btn-sm" type="submit" value="View profile" />
+                </form>
+            </div>
+            <div>
+                <form asp-area="" asp-controller="Notifications" asp-action="AddFriend" asp-route-id="@Model.SenderId" method="post">
+                    <input class="btn btn-primary btn-sm" type="submit" value="Add friend" />
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Pak neshto obyrka tiq veiw-ta</p>
+    }
+</div>
+
+
+

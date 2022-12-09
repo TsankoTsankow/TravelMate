@@ -14,6 +14,14 @@ namespace TravelMate.Controllers
             this.notificationService = _notificationService;
         }
 
+
+        public async Task<IActionResult> Index()
+        {
+            var model = await notificationService.GetNotificationsByUserId(User.Id());
+
+            return View(model);
+        }
+
         public async Task<IActionResult> SendRequest(string id)
         {
             string userId = User.Id();
@@ -28,6 +36,7 @@ namespace TravelMate.Controllers
 
             return RedirectToAction("ViewProfile", "Profile", new { @id = id });
         }
+
 
         
 
