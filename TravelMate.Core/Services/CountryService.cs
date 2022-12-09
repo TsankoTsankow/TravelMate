@@ -27,5 +27,13 @@ namespace TravelMate.Core.Services
 
             return countries;
         }
+
+        public async Task<IEnumerable<string>> GetAllCountiresNames()
+        {
+            return await context.Countries
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

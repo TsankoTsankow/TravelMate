@@ -87,7 +87,7 @@ namespace TravelMate.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("AddPost", model);
+                return View("Edit", model);
             }
 
             if (model.AuthorId != User.Id())
@@ -127,6 +127,16 @@ namespace TravelMate.Controllers
             var result = await postService.GetAllPostsByCategory(query.Category);
 
             query.Categories = await categoryService.GetAllCategoriesNames();
+            query.Posts = result.Posts;
+
+            return View(query);
+        }
+
+        public async Task<IActionResult> AllPostsByCountry([FromQuery] PostsByCountryViewModel query)
+        {
+            var result = await postService.GetAllPostsByCountry(query.Country);
+
+            query.Countries = await countryService.GetAllCountiresNames();
             query.Posts = result.Posts;
 
             return View(query);

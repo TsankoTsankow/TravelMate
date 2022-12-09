@@ -1,4 +1,4 @@
-﻿@model EditProfileViewModel
+﻿@*@model EditProfileViewModel
 @{
     ViewData["Title"] = "Edit your profile";
 }
@@ -52,6 +52,73 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+*@
+
+@model EditProfileViewModel
+
+@{
+    ViewBag.Title = "Edit profile";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post" enctype="multipart/form-data" asp-action="Edit">
+            <div class="mb-3">
+                <input type="hidden" asp-for="@Model.UserId" />
+            </div>
+           
+            <div class="mb-3">
+                <label asp-for="@Model.ProfilePicture" class="control-label">Profile Picture</label>
+                <input asp-for="@Model.ProfilePicture" accept="image/*" />
+                <span asp-validation-for="@Model.ProfilePicture" class="text-danger"></span>
+            </div>
+            <p></p>
+            <div class="text-center mb-3">
+                <label asp-for="@Model.FirstName">First Name</label>
+                <input class="form-control " autocomplete="First Name" aria-required="true" asp-for="@Model.FirstName" />
+                <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+            </div>
+            <div class="text-center mb-3">
+                <label asp-for="@Model.LastName">Last Name</label>
+                <input class="form-control " autocomplete="Last Name" aria-required="true" asp-for="@Model.LastName" />
+                <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Information" class="form-label">About you</label>
+                <textarea asp-for="@Model.Information" class="form-control" aria-required="true" rows="5"></textarea>
+                <span asp-validation-for="Information" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.CountryId" class="form-label">Country</label>
+                <select asp-for="@Model.CountryId" class="form-control">
+                    @foreach (var country in Model.Countries)
+                    {
+                        <option value="@country.Id">@country.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
+            <div class="text-center mb-3">
+                <label asp-for="@Model.BirthDate">Birth Date</label>
+                <input class="form-control " autocomplete="Birth Date" aria-required="true" asp-for="@Model.BirthDate" />
+                <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

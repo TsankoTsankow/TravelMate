@@ -49,7 +49,10 @@ namespace TravelMate.Core.Services
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.CountryId = model.CountryId;
-            user.ProfilePictureUrl = uploadPhoto(model.ProfilePicture);
+            if (model.ProfilePicture != null)
+            {
+                user.ProfilePictureUrl = uploadPhoto(model.ProfilePicture);
+            }
 
             if (model.BirthDate != null)
             {

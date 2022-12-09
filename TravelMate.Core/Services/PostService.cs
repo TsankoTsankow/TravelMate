@@ -128,6 +128,39 @@ namespace TravelMate.Core.Services
             return posts;
         }
 
+        public async Task<PostsByCountryViewModel> GetAllPostsByCountry(string? country = null)
+        {
+            var postQuery = context.Posts
+                .Where(p => p.IsDeleted == false)
+                .AsQueryable();
+
+            var result = new PostsByCountryViewModel();
+
+            if (string.IsNullOrEmpty(country) == false)
+            {
+                postQuery = postQuery
+                    .Where(p => p.Country.Name == country);
+            }
+
+            result.Posts = await postQuery
+                .Select(p => new PostViewModel()
+                {
+                    Id = p.Id,
+                    AuthorName = p.Author.UserName,
+                    AuthorId = p.AuthorId,
+                    PostTime = p.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
+                    Content = p.Content,
+                    Likes = p.Likes.Count(),
+                    Comments = p.Comments.Count(),
+                    Category = p.PostCategory.Name,
+                    PhotoUrl = p.PhotoUrl,
+                    Country = p.Country.Name
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
         public async Task<IEnumerable<PostViewModel>> GetAllPostsByUserId(string userId)
         {
             var posts = await context.Posts
