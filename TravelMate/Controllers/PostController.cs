@@ -121,5 +121,15 @@ namespace TravelMate.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<IActionResult> AllPostsByCategory([FromQuery] PostsByCategoryViewModel query)
+        {
+            var result = await postService.GetAllPostsByCategory(query.Category);
+
+            query.Categories = await categoryService.GetAllCategoriesNames();
+            query.Posts = result.Posts;
+
+            return View(query);
+        }
     }
 }

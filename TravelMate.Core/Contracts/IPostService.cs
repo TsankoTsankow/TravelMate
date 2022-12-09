@@ -1,5 +1,4 @@
-﻿using TravelMate.Core.Models.Photo;
-using TravelMate.Core.Models.Post;
+﻿using TravelMate.Core.Models.Post;
 
 namespace TravelMate.Core.Contracts
 {
@@ -15,5 +14,9 @@ namespace TravelMate.Core.Contracts
         Task Delete(int postId);
 
         Task<PostViewModel> GetPostInfoByPostId(int postId);
+
+        Task<IEnumerable<PostViewModel>> GetAllPostsByCategoryId(int categoryId);
+
+        Task<PostsByCategoryViewModel> GetAllPostsByCategory(string? category = null);
     }
 }

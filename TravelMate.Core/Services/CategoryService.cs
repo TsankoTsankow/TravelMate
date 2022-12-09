@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.CategoryModels;
-using TravelMate.Core.Models.CountryModels;
 using TravelMate.Infrastructure.Data;
 
 namespace TravelMate.Core.Services
@@ -29,6 +28,12 @@ namespace TravelMate.Core.Services
             return categories;
         }
 
-        
+        public async Task<IEnumerable<string>> GetAllCategoriesNames()
+        {
+            return await context.Categories
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

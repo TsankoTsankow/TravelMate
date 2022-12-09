@@ -9,6 +9,12 @@
 <hr />
 
 <div class="d-flex flex-column justify-content-center">
+    @if (!Model.Any())
+    {
+        <div class="text-center mb-3">
+            <h6>Add some friends and you will see all their posts here!</h6>
+        </div>
+    }
     @foreach (var post in Model)
     {
 

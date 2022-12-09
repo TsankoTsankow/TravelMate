@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Security.Claims;
 using TravelMate.Core.Contracts;
-using TravelMate.Core.Models.Photo;
+using TravelMate.Extension;
 using TravelMate.Models;
 
 namespace TravelMate.Controllers
@@ -26,50 +26,12 @@ namespace TravelMate.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.Id();
 
             var model = await postService.GetAllPostsByUserId(userId);
 
             return View(model);
         }
-
-        
-
-        //[HttpGet]
-        //public IActionResult AddPhoto()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddPhoto([FromForm] AddPhotoViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction(nameof(AddPhoto));
-        //    }
-
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        //    //await postService.AddPhotoToFolder(model, userId);
-
-        //    return RedirectToAction(nameof(Gallery));
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> Gallery()
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        //    var model = await postService.DisplayUserGallery(userId);
-
-        //    return View(model);
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

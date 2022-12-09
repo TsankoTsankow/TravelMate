@@ -5,5 +5,7 @@ namespace TravelMate.Core.Contracts
     public interface ICategoryService
     {
         Task<IEnumerable<CategoryViewModel>> GetAllCategories();
+        Task<IEnumerable<string>> GetAllCategoriesNames();
+
     }
 }

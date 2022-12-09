@@ -72,6 +72,62 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task<PostsByCategoryViewModel> GetAllPostsByCategory(string? category = null)
+        {
+            var postQuery = context.Posts
+                .Where(p => p.IsDeleted == false)
+                .AsQueryable();
+
+            var result = new PostsByCategoryViewModel();
+
+            if (string.IsNullOrEmpty(category) == false)
+            {
+                postQuery = postQuery
+                    .Where(p => p.PostCategory.Name == category);
+            }
+
+            result.Posts = await postQuery
+                .Select(p => new PostViewModel()
+                {
+                    Id = p.Id,
+                    AuthorName = p.Author.UserName,
+                    AuthorId = p.AuthorId,
+                    PostTime = p.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
+                    Content = p.Content,
+                    Likes = p.Likes.Count(),
+                    Comments = p.Comments.Count(),
+                    Category = p.PostCategory.Name,
+                    PhotoUrl = p.PhotoUrl,
+                    Country = p.Country.Name
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<PostViewModel>> GetAllPostsByCategoryId(int categoryId)
+        {
+            var posts = await context.Posts
+                .Where(p => p.CategoryId == categoryId)
+                .Where(p => p.IsDeleted == false)
+                .Select(p => new PostViewModel()
+                {
+                    Id = p.Id,
+                    AuthorName = p.Author.UserName,
+                    AuthorId = p.AuthorId,
+                    PostTime = p.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
+                    Content = p.Content,
+                    Likes = p.Likes.Count(),
+                    Comments = p.Comments.Count(),
+                    Category = p.PostCategory.Name,
+                    PhotoUrl = p.PhotoUrl,
+                    Country = p.Country.Name
+                })
+                .ToListAsync();
+
+            return posts;
+        }
+
         public async Task<IEnumerable<PostViewModel>> GetAllPostsByUserId(string userId)
         {
             var posts = await context.Posts

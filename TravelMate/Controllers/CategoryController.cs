@@ -1,12 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TravelMate.Core.Contracts;
+using TravelMate.Core.Models.Post;
+using TravelMate.Core.Services;
+using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
     public class CategoryController : Controller
     {
-        public IActionResult Index()
+        private readonly ICategoryService categoryService;
+
+        public CategoryController(
+            ICategoryService _categoryService) 
         {
-            return View();
+            this.categoryService = _categoryService;
         }
+
     }
 }

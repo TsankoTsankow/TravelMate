@@ -18,11 +18,9 @@ namespace TravelMate.Controllers
             this.countryService = _countryService;
         }
 
-        public async Task<IActionResult> ViewMyProfile()
+        public async Task<IActionResult> ViewProfile(string id)
         {
-            string Id = User.Id();
-
-            var model = await profileService.DisplayProfileById(Id);
+            var model = await profileService.DisplayProfileById(id);
 
             return View(model);
         }
