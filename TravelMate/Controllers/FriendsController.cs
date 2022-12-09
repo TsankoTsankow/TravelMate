@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TravelMate.Core.Contracts;
+using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
@@ -27,7 +28,7 @@ namespace TravelMate.Controllers
         [HttpGet]
         public async Task<IActionResult> AllFriends()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.Id();
 
             var model = await userService.GetAllFriends(userId);
 
@@ -52,7 +53,7 @@ namespace TravelMate.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFriend(string friendId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.Id();
 
             if (!ModelState.IsValid)
             {

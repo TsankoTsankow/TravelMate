@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Profile;
-using TravelMate.Core.Services;
 using TravelMate.Extension;
 
 namespace TravelMate.Controllers
@@ -21,7 +20,7 @@ namespace TravelMate.Controllers
         public async Task<IActionResult> ViewProfile(string id)
         {
             var model = await profileService.DisplayProfileById(id);
-
+            
             return View(model);
         }
 

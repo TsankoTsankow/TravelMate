@@ -32,7 +32,9 @@
             }
             else
             {
-                <h4>Add friend</h4>
+                <form asp-area="" asp-controller="Notifications" asp-action="SendRequest" asp-route-id="@Model.UserId" method="post">
+                    <input class="btn btn-primary btn-sm" type="submit" value="Send request" />
+                </form>
             }
         </div>
     </div>

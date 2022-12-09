@@ -12,6 +12,7 @@ namespace TravelMate.Extension
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             return services;
         }
