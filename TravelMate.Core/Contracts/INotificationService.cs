@@ -10,5 +10,6 @@ namespace TravelMate.Core.Contracts
         Task SendFriendRequest(string userId, string friendId);
         Task<bool> UsersAreFriends(string userId, string friendId);
         Task<IEnumerable<NotificationViewModel>> GetNotificationsByUserId(string id);
+        Task SendLikeNotification(int postId, string senderId);
     }
 }

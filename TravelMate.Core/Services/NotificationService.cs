@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.ApplicationUser;
 using TravelMate.Core.Models.Notifications;
@@ -77,6 +78,7 @@ namespace TravelMate.Core.Services
         {
             var result = await context.Notifications
                 .Where(n => n.UserId == id)
+                .OrderByDescending(n => n.Id)
                 .Select(n => new NotificationViewModel()
                 {
                     Id = n.Id,
@@ -124,6 +126,31 @@ namespace TravelMate.Core.Services
 
         }
 
+        public async Task SendLikeNotification(int postId, string senderId)
+        {
+            var post = await context.Posts
+                .Where(p => p.Id == postId)
+                .Where(p => p.IsDeleted == false)
+                .FirstAsync();
+
+            var sender = await context.Users
+                .Where(p => p.Id == senderId)
+                .Where(p => p.IsDeleted == false)
+                .FirstAsync();
+
+            var notification = new Notification()
+            {
+                NotificationType = NotificationType.PostLike,
+                Description = $"{sender.UserName} liked your post from {post.CreatedOn.ToString("dd/MM/yyyy HH:mm")}",
+                UserId = post.AuthorId,
+                User = post.Author,
+                SenderId = senderId,
+                IsRead = false
+            };
+
+            await context.Notifications.AddAsync(notification);
+            await context.SaveChangesAsync();
+        }
         public async Task<bool> UsersAreFriends(string userId, string friendId)
         {
             var userFriendship = await context.UserFriendships

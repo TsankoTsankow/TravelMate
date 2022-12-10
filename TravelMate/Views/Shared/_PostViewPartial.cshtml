@@ -20,11 +20,13 @@
         <br />
         @if (UserManager.GetUserId(User) != Model.AuthorId)
         {
-            <div class="form-inline">
+            <div class="btn-group">
                 <form asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.AuthorId" method="post">
-                    <input class="btn btn-primary btn-sm" type="submit" value="View profile" />
+                    <input class="btn btn-success btn-sm" type="submit" value="View profile" />
                 </form>
-                <h6><b>Like</b></h6>
+                <form asp-area="" asp-controller="Post" asp-action="LikePost" asp-route-id="@Model.Id" method="post">
+                    <input class="btn btn-primary btn-sm" type="submit" value="Like" />
+                </form>
                 <h6><b>Comment</b></h6>
             </div>
         }

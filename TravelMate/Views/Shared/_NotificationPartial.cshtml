@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col-md-8">
-        <h4>@Model.Description</h4>
+        <h6>@Model.Description</h6>
     </div>
     <div class="col-md-2">
         <form asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.SenderId" method="post">
@@ -16,10 +16,6 @@
             <form asp-area="" asp-controller="Notifications" asp-action="AddFriend" asp-route-id="@Model.SenderId" method="post">
                 <input class="btn btn-success btn-sm" id="disable-button" type="submit" value="Add friend" />
             </form>
-        }
-        else
-        {
-            <p>Pak neshto obyrka tiq veiw-ta</p>
         }
     </div>
 </div>

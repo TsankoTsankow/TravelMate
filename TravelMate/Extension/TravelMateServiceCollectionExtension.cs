@@ -14,6 +14,7 @@ namespace TravelMate.Extension
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<ILikeService, LikeService>();
 
             return services;
         }

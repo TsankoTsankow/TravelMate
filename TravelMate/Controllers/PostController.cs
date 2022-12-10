@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Runtime.InteropServices;
-using System.Security.Claims;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
-using TravelMate.Core.Services;
 using TravelMate.Extension;
 
 namespace TravelMate.Controllers
@@ -13,15 +10,21 @@ namespace TravelMate.Controllers
         private readonly IPostService postService;
         private readonly ICountryService countryService;
         private readonly ICategoryService categoryService;
+        private readonly ILikeService likeService;
+        private readonly INotificationService notificationService;
 
         public PostController(
             IPostService _postService,
             ICountryService _countryService,
-            ICategoryService _categoryService)
+            ICategoryService _categoryService,
+            ILikeService _likeService,
+            INotificationService _notificationService)
         {
             this.postService = _postService;
             this.countryService = _countryService;
             this.categoryService = _categoryService;
+            this.likeService = _likeService;
+            this.notificationService = _notificationService;
         }
 
         [HttpGet]
@@ -140,6 +143,21 @@ namespace TravelMate.Controllers
             query.Posts = result.Posts;
 
             return View(query);
+        }
+
+        public async Task<IActionResult> LikePost(int id)
+        {
+            var userId = User.Id();
+
+            if (!await likeService.UserLikedPost(id, userId))
+            {
+                await likeService.AddLike(id, userId);
+
+                await notificationService.SendLikeNotification(id, userId);
+            }
+
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }
