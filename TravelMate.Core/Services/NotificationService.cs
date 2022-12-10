@@ -60,31 +60,10 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllFriends(string userId)
+
+        public async Task<IEnumerable<UserPostsViewModel>> GetAllUsers()
         {
-            var user = await context.Users
-                .Where(u => u.Id == userId)
-                .Include(u => u.Friends)
-                .ThenInclude(uf => uf.UserFriend)
-                .FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                throw new ArgumentException("Ivalid User ID");
-            }
-
-            return user.Friends.Select(u => new UserViewModel()
-            {
-                Id = u.UserFriendId,
-                Username = u.UserFriend.UserName,
-                Email = u.UserFriend.Email
-            });
-
-        }
-
-        public async Task<IEnumerable<UserViewModel>> GetAllUsers()
-        {
-            var users = await context.Users.Select(u => new UserViewModel()
+            var users = await context.Users.Select(u => new UserPostsViewModel()
             {
                 Id = u.Id,
                 Username = u.UserName,

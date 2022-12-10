@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TravelMate.Core.Models.Post;
 
 namespace TravelMate.Core.Models.ApplicationUser
 {
-    public class UserViewModel
+    public class UserPostsViewModel
     {
         [Key]
         public string Id { get; set; } = null!;
@@ -12,5 +13,7 @@ namespace TravelMate.Core.Models.ApplicationUser
 
         [Required]
         public string Email { get; set; } = null!;
+
+        public ICollection<PostViewModel> Posts { get; set; } = new List<PostViewModel>();
     }
 }

@@ -62,7 +62,7 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllFriends(string userId)
+        public async Task<IEnumerable<UserPostsViewModel>> GetAllFriends(string userId)
         {
             var user = await context.Users
                 .Where(u => u.Id == userId)
@@ -75,7 +75,7 @@ namespace TravelMate.Core.Services
                 throw new ArgumentException("Ivalid User ID");
             }
 
-            return user.Friends.Select(u => new UserViewModel()
+            return user.Friends.Select(u => new UserPostsViewModel()
             {
                 Id = u.UserFriendId,
                 Username = u.UserFriend.UserName,
@@ -84,9 +84,9 @@ namespace TravelMate.Core.Services
 
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllUsers()
+        public async Task<IEnumerable<UserPostsViewModel>> GetAllUsers()
         {
-            var users = await context.Users.Select(u => new UserViewModel()
+            var users = await context.Users.Select(u => new UserPostsViewModel()
             {
                 Id = u.Id,
                 Username = u.UserName,
@@ -129,27 +129,3 @@ namespace TravelMate.Core.Services
         }
     }
 }
-
-//[Key]
-//public int Id { get; set; }
-
-//[Required]
-//public int NotificationTypeId { get; set; }
-
-//[Required]
-//[ForeignKey(nameof(NotificationTypeId))]
-//public NotificationType NotificationType { get; set; } = null!;
-
-//[Required]
-//public string Description { get; set; } = null!;
-
-//public string UserId { get; set; } = null!;
-
-//[ForeignKey(nameof(UserId))]
-//public ApplicationUser User { get; set; } = null!;
-
-//[Required]
-//public string SenderId { get; set; } = null!;
-
-//[Required]
-//public bool IsRead { get; set; } = false;

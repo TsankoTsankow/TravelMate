@@ -29,10 +29,10 @@ namespace TravelMate.Core.Services
                     UserId = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    BirthDate = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("dd/MM/yyyy") : String.Empty,
+                    BirthDate = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                     Information = u.Information,
                     CountryId = u.CountryId,
-                    Country = u.Country,
+                    Country = u.Country != null ? u.Country.Name : string.Empty,
                     ProfilePictureUrl = u.ProfilePictureUrl
                 })
                 .FirstAsync();
@@ -51,7 +51,7 @@ namespace TravelMate.Core.Services
             user.CountryId = model.CountryId;
             if (model.ProfilePicture != null)
             {
-                user.ProfilePictureUrl = uploadPhoto(model.ProfilePicture);
+                user.ProfilePictureUrl = await UploadPhoto(model.ProfilePicture);
             }
 
             if (model.BirthDate != null)
@@ -62,7 +62,7 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
-        private string? uploadPhoto(IFormFile? photo)
+        public async Task<string> UploadPhoto(IFormFile? photo)
         {
             var FileDir = "Images";
 

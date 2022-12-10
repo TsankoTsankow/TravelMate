@@ -12,12 +12,19 @@ namespace TravelMate.Core.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IWebHostEnvironment hostingEnv;
+        private readonly IProfileService profileService;
+        private readonly IFriendService friendService;
 
-        public PostService(ApplicationDbContext _context,
-            IWebHostEnvironment _hostingEnv)
+        public PostService(
+            ApplicationDbContext _context,
+            IWebHostEnvironment _hostingEnv,
+            IProfileService _profileService,
+            IFriendService _friendService)
         {
             this.context = _context;
             this.hostingEnv = _hostingEnv;
+            this.profileService = _profileService;
+            this.friendService = _friendService;
         }
                 
 
@@ -39,8 +46,12 @@ namespace TravelMate.Core.Services
                 Author = user,
                 CategoryId = model.CategoryId,
                 CountryId = model.CountryId,
-                PhotoUrl = uploadPhoto(model.File)
             };
+
+            if (model.File != null)
+            {
+                post.PhotoUrl = await profileService.UploadPhoto(model.File);
+            }
 
             await context.Posts.AddAsync(post);
             await context.SaveChangesAsync();
@@ -65,7 +76,7 @@ namespace TravelMate.Core.Services
             post.CountryId = model.CountryId;
             if (model.File != null)
             {
-                post.PhotoUrl = uploadPhoto(model.File);
+                post.PhotoUrl = await profileService.UploadPhoto(model.File);
             }
 
 
@@ -184,6 +195,25 @@ namespace TravelMate.Core.Services
             return posts;
         }
 
+        public async Task<IEnumerable<PostViewModel>> GetAllPostsOfUserFriends(string id)
+        {
+            var userFriends = await friendService.GetAllFriends(id);
+
+            var result = new List<PostViewModel>();
+
+            foreach (var user in userFriends)
+            {
+                foreach (var post in user.Posts)
+                {
+                    result.Add(post);
+                }
+            }
+
+            result.OrderBy(p => p.PostTime);
+
+            return result;
+        }
+
         public async Task<EditPostViewModel> GetPostById(int postId)
         {
             return await context.Posts
@@ -219,39 +249,9 @@ namespace TravelMate.Core.Services
                    Country = p.Country.Name
                })
                .FirstAsync();
-        }
 
-        private string? uploadPhoto(IFormFile? photo)
-        {
-            var FileDir = "Images";
-
-            string FilePath = Path.Combine(hostingEnv.WebRootPath, FileDir);
-
-            var photoName = Path.GetFileNameWithoutExtension(photo.FileName);
-
-            var photoExtension = Path.GetExtension(photo.FileName);
-
-            var fileName = photoName + DateTime.Now.ToString("MMddyyyyHHmmss") + photoExtension;
-
-            var filePath = Path.Combine(FilePath, fileName);
-
-            var photoUrl = Path.Combine(hostingEnv.WebRootPath, "\\Images\\", fileName);
-
-            if (photo.Length <= 3145728)
-            {
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    photo.CopyTo(stream);
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Picture is too big");
-            }
-
-            return photoUrl;
+            
         }
     }
-        
 }
 

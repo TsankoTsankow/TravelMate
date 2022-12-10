@@ -13,6 +13,7 @@ namespace TravelMate.Extension
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IFriendService, FriendService>();
 
             return services;
         }

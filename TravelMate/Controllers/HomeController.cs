@@ -28,7 +28,7 @@ namespace TravelMate.Controllers
 
             var userId = User.Id();
 
-            var model = await postService.GetAllPostsByUserId(userId);
+            var model = await postService.GetAllPostsOfUserFriends(userId);
 
             return View(model);
         }

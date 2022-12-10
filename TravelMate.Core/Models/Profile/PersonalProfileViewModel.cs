@@ -28,7 +28,7 @@ namespace TravelMate.Core.Models.Profile
         public int? CountryId { get; set; }
 
         [Display(Name = "Location")]
-        public Country? Country { get; set; }
+        public string? Country { get; set; }
 
         public string? ProfilePictureUrl { get; set; }
     }

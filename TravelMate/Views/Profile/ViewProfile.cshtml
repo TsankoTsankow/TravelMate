@@ -22,7 +22,7 @@
             {
                 <p>Birthday: <b>@Model.BirthDate</b></p>
             }
-            <p>Location: <b>@Model.Country.Name</b></p>
+            <p>Location: <b>@Model.Country</b></p>
             <p>About me: @Model.Information</p>
             @if (UserManager.GetUserId(User) == Model.UserId)
             {
