@@ -17,17 +17,7 @@ namespace TravelMate.Core.Services
 
         public async Task<IEnumerable<UserPostsViewModel>> GetAllFriends(string userId)
         {
-            var user = await context.Users
-                .Where(u => u.Id == userId)
-                .Include(u => u.Friends)
-                .ThenInclude(uf => uf.UserFriend)
-                .FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                throw new ArgumentException("Ivalid User ID");
-            }
-
+            
             var friends = await context.UserFriendships
                 .Where(u => u.UserId == userId)
                 .Where(u => u.UserFriend.IsDeleted == false)
@@ -56,6 +46,64 @@ namespace TravelMate.Core.Services
                 .ToListAsync();
 
             return friends; 
+        }
+
+        public async Task AddFriend(string userId, string friendId)
+        {
+            var user = await context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.Friends)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user Id");
+            }
+
+            var friend = await context.Users
+                .Where(u => u.Id == friendId)
+                .Include(u => u.Friends)
+                .FirstOrDefaultAsync();
+
+            if (friend == null)
+            {
+                throw new ArgumentException("Invalid friend Id");
+            }
+
+
+            var userFriend = new UserFriendship()
+            {
+                UserId = userId,
+                User = user,
+                UserFriendId = friendId,
+                UserFriend = friend
+            };
+
+            var friendUser = new UserFriendship()
+            {
+                UserId = friendId,
+                User = friend,
+                UserFriendId = userId,
+                UserFriend = user
+            };
+
+            user.Friends.Add(userFriend);
+            friend.Friends.Add(friendUser);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> UsersAreFriends(string userId, string friendId)
+        {
+            var userFriendship = await context.UserFriendships
+                .Where(uf => uf.UserId == userId && uf.UserFriendId == friendId)
+                .FirstOrDefaultAsync();
+
+            if (userFriendship is null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

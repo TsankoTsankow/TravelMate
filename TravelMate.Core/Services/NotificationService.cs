@@ -17,51 +17,6 @@ namespace TravelMate.Core.Services
             this.context = _context;
         }
 
-        public async Task AddFriend(string userId, string friendId)
-        {
-            var user = await context.Users
-                .Where(u => u.Id == userId)
-                .Include(u => u.Friends)
-                .FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                throw new ArgumentException("Invalid user Id");
-            }
-
-            var friend = await context.Users
-                .Where(u => u.Id == friendId)
-                .Include(u => u.Friends)
-                .FirstOrDefaultAsync();
-
-            if (friend == null)
-            {
-                throw new ArgumentException("Invalid friend Id");
-            }
-
-            
-            var userFriend = new UserFriendship()
-            {
-                UserId = userId,
-                User = user,
-                UserFriendId = friendId,
-                UserFriend = friend
-            };
-
-            var friendUser = new UserFriendship()
-            {
-                UserId = friendId,
-                User = friend,
-                UserFriendId = userId,
-                UserFriend = user
-            };
-
-            user.Friends.Add(userFriend);
-            friend.Friends.Add(friendUser);
-            await context.SaveChangesAsync();
-        }
-
-
         public async Task<IEnumerable<UserPostsViewModel>> GetAllUsers()
         {
             var users = await context.Users.Select(u => new UserPostsViewModel()
@@ -151,18 +106,6 @@ namespace TravelMate.Core.Services
             await context.Notifications.AddAsync(notification);
             await context.SaveChangesAsync();
         }
-        public async Task<bool> UsersAreFriends(string userId, string friendId)
-        {
-            var userFriendship = await context.UserFriendships
-                .Where(uf => uf.UserId == userId && uf.UserFriendId == friendId)
-                .FirstOrDefaultAsync();
-
-            if (userFriendship is null)
-            {
-                return false;
-            }
-
-            return true;
-        }
+        
     }
 }

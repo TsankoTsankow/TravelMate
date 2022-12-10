@@ -7,10 +7,14 @@ namespace TravelMate.Controllers
     public class NotificationsController : Controller
     {
         private readonly INotificationService notificationService;
+        private readonly IFriendService friendService;
 
-        public NotificationsController(INotificationService _notificationService)
+        public NotificationsController(
+            INotificationService _notificationService, 
+            IFriendService friendService)
         {
             this.notificationService = _notificationService;
+            this.friendService = friendService;
         }
 
 
@@ -21,11 +25,11 @@ namespace TravelMate.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> SendRequest(string id)
+        public async Task<IActionResult> SendFriendRequest(string id)
         {
             string userId = User.Id();
 
-            if (await notificationService.UsersAreFriends(userId, id))
+            if (await friendService.UsersAreFriends(userId, id))
             {
                 //throw new Exception("User is already a friend");
                 return RedirectToAction("ViewProfile", "Profile", new {@id = id});
@@ -40,27 +44,6 @@ namespace TravelMate.Controllers
 
             return RedirectToAction("ViewProfile", "Profile", new { @id = id });
         }
-
-        public async Task<IActionResult> AddFriend(string id)
-        {
-            var userId = User.Id();
-
-            if (await notificationService.UsersAreFriends(userId, id))
-            {
-                //throw new Exception("User is already a friend");
-                return RedirectToAction("ViewProfile", "Profile", new { @id = id });
-            }
-
-            if (userId == id)
-            {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-            }
-
-            await notificationService.AddFriend(userId, id);
-
-            return RedirectToAction("ViewProfile", "Profile", new { @id = id });
-        }
-        
 
     }
 }

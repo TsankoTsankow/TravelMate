@@ -13,7 +13,7 @@
     <div class="col-md-2">
         @if (Model.NotificationType == 0)
         {
-            <form asp-area="" asp-controller="Notifications" asp-action="AddFriend" asp-route-id="@Model.SenderId" method="post">
+            <form asp-area="" asp-controller="Friends" asp-action="AddFriend" asp-route-id="@Model.SenderId" method="post">
                 <input class="btn btn-success btn-sm" id="disable-button" type="submit" value="Add friend" />
             </form>
         }
