@@ -39,6 +39,9 @@
             <form asp-area="" asp-controller="Friends" asp-action="ViewAllFriends" asp-route-id="@Model.UserId" method="post">
                 <input class="btn btn-outline-primary btn-sm" type="submit" value="View all friends" />
             </form>
+            <form asp-area="" asp-controller="Post" asp-action="AllPostsOfUser" asp-route-id="@Model.UserId" method="post">
+                <input class="btn btn-outline-success btn-sm" type="submit" value="View all posts" />
+            </form>
         </div>
     </div>
 </div>

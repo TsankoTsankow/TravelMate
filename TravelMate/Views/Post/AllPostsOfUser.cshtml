@@ -1,0 +1,23 @@
+﻿@model IEnumerable<PostViewModel>
+
+@{
+    ViewBag.Title = "Browse all posts from a certain category";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (!Model.Any())
+{
+    <h2 class="text-center">This user has no posts yet!</h2>
+}
+
+<div class="row">
+    @foreach (var post in Model)
+    {
+        <partial name="_PostViewPartial" model="@post" />
+        <p></p>
+        <hr />
+        <p></p>
+    }
+</div>

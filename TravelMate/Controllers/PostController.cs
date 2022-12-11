@@ -157,7 +157,13 @@ namespace TravelMate.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
 
+        public async Task<IActionResult> AllPostsOfUser(string id)
+        {
+            var model = await postService.GetAllPostsByUserId(id);
+
+            return View(model);
         }
     }
 }
