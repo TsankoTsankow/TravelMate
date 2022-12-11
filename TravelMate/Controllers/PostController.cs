@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
 using TravelMate.Extension;
@@ -125,20 +126,11 @@ namespace TravelMate.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> AllPostsByCategory([FromQuery] PostsByCategoryViewModel query)
+        public async Task<IActionResult> AllPosts([FromQuery] AllPostsQueryModel query)
         {
-            var result = await postService.GetAllPostsByCategory(query.Category);
+            var result = await postService.GetAllPostsQuery(query.Category, query.Country);
 
             query.Categories = await categoryService.GetAllCategoriesNames();
-            query.Posts = result.Posts;
-
-            return View(query);
-        }
-
-        public async Task<IActionResult> AllPostsByCountry([FromQuery] PostsByCountryViewModel query)
-        {
-            var result = await postService.GetAllPostsByCountry(query.Country);
-
             query.Countries = await countryService.GetAllCountiresNames();
             query.Posts = result.Posts;
 

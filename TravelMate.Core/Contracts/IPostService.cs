@@ -1,4 +1,5 @@
-﻿using TravelMate.Core.Models.Post;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using TravelMate.Core.Models.Post;
 
 namespace TravelMate.Core.Contracts
 {
@@ -17,8 +18,7 @@ namespace TravelMate.Core.Contracts
 
         Task<IEnumerable<PostViewModel>> GetAllPostsByCategoryId(int categoryId);
 
-        Task<PostsByCategoryViewModel> GetAllPostsByCategory(string? category = null);
-        Task<PostsByCountryViewModel> GetAllPostsByCountry(string? country = null);
+        Task<AllPostsQueryModel> GetAllPostsQuery(string? category = null, string? country = null);
 
         Task<IEnumerable<PostViewModel>> GetAllPostsOfUserFriends(string id);
     }

@@ -1,4 +1,5 @@
-﻿using TravelMate.Core.Models.CountryModels;
+﻿using TravelMate.Core.Models.CategoryModels;
+using TravelMate.Core.Models.CountryModels;
 
 namespace TravelMate.Core.Contracts
 {
@@ -6,5 +7,8 @@ namespace TravelMate.Core.Contracts
     {
         Task<IEnumerable<CountryUserViewModel>> GetAllCountries();
         Task<IEnumerable<string>> GetAllCountiresNames();
+        Task Edit(EditCountryViewModel model);
+        Task Add(EditCountryViewModel model);
+        Task<EditCountryViewModel> GetCountryById(int countryId);
     }
 }

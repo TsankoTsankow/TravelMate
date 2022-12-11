@@ -1,0 +1,28 @@
+﻿@model IEnumerable<CategoryViewModel>
+
+@{
+    ViewBag.Title = "All categories";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="form-inline">
+    <a class="btn btn-primary" asp-controller="Category" asp-action="Add">Add Category</a>
+</div>
+
+@foreach (var category in Model)
+{
+
+    <div class="row">
+        <div class="col-md-8">
+            <h6>@category.Name</h6>
+        </div>
+        <div class="col-md-2">
+            <div class="form-inline">
+                <a class="btn btn-primary" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+            </div>
+        </div>
+    </div>
+    <hr />
+}

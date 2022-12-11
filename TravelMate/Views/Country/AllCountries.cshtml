@@ -1,0 +1,28 @@
+﻿@model IEnumerable<CountryUserViewModel>
+
+@{
+    ViewBag.Title = "All categories";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center mb-3">
+    <a class="btn btn-primary" asp-controller="Country" asp-action="Add">Add Country</a>
+</div>
+
+@foreach (var country in Model)
+{
+
+    <div class="row">
+        <div class="col-md-8">
+            <h6>@country.Name</h6>
+        </div>
+        <div class="col-md-2">
+            <div class="form-inline">
+                <a class="btn btn-primary" asp-controller="Country" asp-action="Edit" asp-route-id="@country.Id">Edit</a>
+            </div>
+        </div>
+    </div>
+    <hr />
+}

@@ -5,7 +5,7 @@ using static TravelMate.Infrastructure.Data.Constants.EntityConstants;
 
 namespace TravelMate.Core.Models.CountryModels
 {
-    public class CountryViewModel
+    public class EditCountryViewModel
     {
         [Key]
         public int Id { get; set; }
@@ -18,12 +18,7 @@ namespace TravelMate.Core.Models.CountryModels
         [StringLength(CountryDescriptionMaxLength, MinimumLength = CountryDescriptionMinLength)]
         public string Description { get; set; } = null!;
 
-        [Required]
         public int RegionId { get; set; }
-
-        [Required]
-        public Region Region { get; set; } = null!;
-
     }
 }
 
