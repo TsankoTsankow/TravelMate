@@ -6,11 +6,17 @@
 @model PostViewModel
 
 <div class="row">
-    <div class="col-md-4">
-        <img class="card-img-top" src="@Model.PhotoUrl" alt="Post Image">
-    </div>
+    @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+    {
+        <div class="col-md-4">
+            <img class="card-img-top" src="@Model.PhotoUrl" alt="Post Image">
+        </div>
+    }      
     <div class="col-md-8">
         <h4>@Model.AuthorName</h4>
+        <form asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.AuthorId" method="post">
+            <input class="btn btn-outline-success btn-sm" type="submit" value="View profile" />
+        </form>
         <p>@Model.Content</p>
         <p> Location: @Model.Country</p>
         <p> Added: @Model.PostTime</p>
@@ -21,9 +27,7 @@
         @if (UserManager.GetUserId(User) != Model.AuthorId)
         {
             <div class="btn-group">
-                <form asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.AuthorId" method="post">
-                    <input class="btn btn-success btn-sm" type="submit" value="View profile" />
-                </form>
+                
                 <form asp-area="" asp-controller="Post" asp-action="LikePost" asp-route-id="@Model.Id" method="post">
                     <input class="btn btn-primary btn-sm" type="submit" value="Like" />
                 </form>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
@@ -98,6 +97,7 @@ namespace TravelMate.Core.Services
             }
 
             result.Posts = await postQuery
+                .OrderByDescending(p => p.CreatedOn)
                 .Select(p => new PostViewModel()
                 {
                     Id = p.Id,
@@ -154,6 +154,7 @@ namespace TravelMate.Core.Services
             }
 
             result.Posts = await postQuery
+                .OrderByDescending(p => p.CreatedOn)
                 .Select(p => new PostViewModel()
                 {
                     Id = p.Id,
@@ -209,7 +210,7 @@ namespace TravelMate.Core.Services
                 }
             }
 
-            result.OrderBy(p => p.PostTime);
+            result = result.OrderByDescending(p => p.PostTime).ToList();
 
             return result;
         }
