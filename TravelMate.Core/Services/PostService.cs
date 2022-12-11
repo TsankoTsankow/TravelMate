@@ -10,18 +10,15 @@ namespace TravelMate.Core.Services
     public class PostService : IPostService
     {
         private readonly ApplicationDbContext context;
-        private readonly IWebHostEnvironment hostingEnv;
         private readonly IProfileService profileService;
         private readonly IFriendService friendService;
 
         public PostService(
             ApplicationDbContext _context,
-            IWebHostEnvironment _hostingEnv,
             IProfileService _profileService,
             IFriendService _friendService)
         {
             this.context = _context;
-            this.hostingEnv = _hostingEnv;
             this.profileService = _profileService;
             this.friendService = _friendService;
         }
@@ -208,7 +205,7 @@ namespace TravelMate.Core.Services
         {
             return await context.Posts
                .Where(p => p.Id == postId)
-               //.Where(p => p.IsDeleted == false)
+               .Where(p => p.IsDeleted == false)
                .Select(p => new PostViewModel()
                {
                    Id = p.Id,

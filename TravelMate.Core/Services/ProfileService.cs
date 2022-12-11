@@ -82,7 +82,7 @@ namespace TravelMate.Core.Services
             {
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    photo.CopyTo(stream);
+                    await photo.CopyToAsync(stream);
                 }
             }
             else

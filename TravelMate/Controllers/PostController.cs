@@ -137,20 +137,6 @@ namespace TravelMate.Controllers
             return View(query);
         }
 
-        public async Task<IActionResult> LikePost(int id)
-        {
-            var userId = User.Id();
-
-            if (!await likeService.UserLikedPost(id, userId))
-            {
-                await likeService.AddLike(id, userId);
-
-                await notificationService.SendLikeNotification(id, userId);
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
         public async Task<IActionResult> AllPostsOfUser(string id)
         {
             var model = await postService.GetAllPostsByUserId(id);
