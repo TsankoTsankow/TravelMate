@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.CategoryModels;
 using TravelMate.Core.Models.Post;
@@ -7,6 +8,7 @@ using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
+    [Authorize(Roles = "TravelGuru")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService categoryService;

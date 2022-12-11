@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.CountryModels;
 
 namespace TravelMate.Controllers
 {
+    [Authorize(Roles = "TravelGuru")]
+
     public class CountryController : Controller
     {
         private readonly ICountryService countryService;

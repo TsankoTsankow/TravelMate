@@ -31,15 +31,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="AllPosts">Browse</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Edit
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="AllCategories">Categories</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Country" asp-action="AllCountries">Countries</a></li>
-                            </ul>
-                        </li>
+                        @if (this.User.IsInRole("TravelGuru"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Edit
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="AllCategories">Categories</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Country" asp-action="AllCountries">Countries</a></li>
+                                </ul>
+
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -54,7 +58,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - TravelMate 
+            &copy; 2022 - TravelMate
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
