@@ -1,0 +1,18 @@
+﻿@model IEnumerable<UserPostsViewModel>
+
+@{
+    ViewBag.Title = "Friends List";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    @foreach (var user in Model)
+    {
+        <partial name="_FriendsListViewModel" model="@user" />
+        <p></p>
+        <hr />
+        <p></p>
+    }
+</div>

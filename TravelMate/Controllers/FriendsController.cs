@@ -19,7 +19,6 @@ namespace TravelMate.Controllers
 
             if (await friendService.UsersAreFriends(userId, id))
             {
-                //throw new Exception("User is already a friend");
                 return RedirectToAction("ViewProfile", "Profile", new { @id = id });
             }
 
@@ -31,6 +30,13 @@ namespace TravelMate.Controllers
             await friendService.AddFriend(userId, id);
 
             return RedirectToAction("ViewProfile", "Profile", new { @id = id });
+        }
+
+        public async Task<IActionResult> ViewAllFriends(string id)
+        {
+            var model = await friendService.GetAllFriends(id);
+
+            return View(model);
         }
     }
 }
