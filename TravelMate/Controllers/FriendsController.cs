@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
 using TravelMate.Extension;
 
@@ -19,12 +20,16 @@ namespace TravelMate.Controllers
 
             if (await friendService.UsersAreFriends(userId, id))
             {
+                TempData[MessageConstants.ErrorMessage] = "You are already friends";
+
                 return RedirectToAction("ViewProfile", "Profile", new { @id = id });
             }
 
             if (userId == id)
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                TempData[MessageConstants.ErrorMessage] = "You cannot add yourseld as a friend";
+
+                return RedirectToAction("ViewProfile", "Profile", new { @id = id });
             }
 
             await friendService.AddFriend(userId, id);

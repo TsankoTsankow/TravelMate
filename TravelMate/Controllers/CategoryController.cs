@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.CategoryModels;
-using TravelMate.Core.Models.Post;
-using TravelMate.Core.Services;
-using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
