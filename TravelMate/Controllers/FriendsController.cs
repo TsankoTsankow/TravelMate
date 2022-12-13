@@ -34,6 +34,8 @@ namespace TravelMate.Controllers
 
             await friendService.AddFriend(userId, id);
 
+            TempData[MessageConstants.SuccessMessage] = "Successfully added to friends";
+
             return RedirectToAction("ViewProfile", "Profile", new { @id = id });
         }
 

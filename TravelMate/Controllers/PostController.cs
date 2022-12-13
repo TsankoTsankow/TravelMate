@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
 using TravelMate.Extension;
@@ -60,6 +60,9 @@ namespace TravelMate.Controllers
             try
             {
                 await postService.CreatePost(post, userId, url);
+
+                TempData[MessageConstants.SuccessMessage] = "Post successfully added!";
+
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception)
@@ -104,7 +107,10 @@ namespace TravelMate.Controllers
             }
 
             var url = await photoService.UploadPhoto(model.File);
+
             await postService.Edit(model, model.Id, url);
+
+            TempData[MessageConstants.SuccessMessage] = "Post successfully edited!";
 
             return RedirectToAction("Index", "Home");
         }
@@ -127,6 +133,8 @@ namespace TravelMate.Controllers
         {
             
             await postService.Delete(id);
+
+            TempData[MessageConstants.SuccessMessage] = "Post successfully deleted!";
 
             return RedirectToAction("Index", "Home");
         }

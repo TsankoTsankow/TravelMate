@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Profile;
@@ -11,13 +9,10 @@ namespace TravelMate.Core.Services
     public class ProfileService : IProfileService
     {
         private readonly ApplicationDbContext context;
-        private readonly IWebHostEnvironment hostingEnv;
 
-        public ProfileService(ApplicationDbContext _context,
-            IWebHostEnvironment _hostingEnv)
+        public ProfileService(ApplicationDbContext _context)
         {
             this.context = _context;
-            this.hostingEnv = _hostingEnv;
         }
         public async Task<PersonalProfileViewModel> DisplayProfileById(string Id)
         {

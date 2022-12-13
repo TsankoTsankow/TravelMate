@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using TravelMate.Core.Contracts;
-using TravelMate.Infrastructure.Data;
 
 namespace TravelMate.Core.Services
 {

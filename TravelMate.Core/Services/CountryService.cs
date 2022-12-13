@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
-using TravelMate.Core.Models.CategoryModels;
 using TravelMate.Core.Models.CountryModels;
 using TravelMate.Infrastructure.Data;
 

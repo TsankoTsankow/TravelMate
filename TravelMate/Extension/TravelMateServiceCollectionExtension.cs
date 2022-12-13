@@ -8,7 +8,6 @@ namespace TravelMate.Extension
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IPostService, PostService>();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICategoryService, CategoryService>();

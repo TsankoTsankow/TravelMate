@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
 using TravelMate.Infrastructure.Data;

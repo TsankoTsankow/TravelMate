@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Security.Claims;
 using TravelMate.Core.Contracts;
 using TravelMate.Extension;
 using TravelMate.Models;

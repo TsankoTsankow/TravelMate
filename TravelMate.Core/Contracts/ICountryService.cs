@@ -1,5 +1,4 @@
-﻿using TravelMate.Core.Models.CategoryModels;
-using TravelMate.Core.Models.CountryModels;
+﻿using TravelMate.Core.Models.CountryModels;
 
 namespace TravelMate.Core.Contracts
 {

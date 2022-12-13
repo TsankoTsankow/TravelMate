@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
-using TravelMate.Core.Services;
 using TravelMate.Extension;
 
 namespace TravelMate.Controllers
@@ -30,6 +29,8 @@ namespace TravelMate.Controllers
             }
 
             await likeService.AddLike(id, userId);
+
+            TempData[MessageConstants.SuccessMessage] = "Post liked!";
 
             await notificationService.SendLikeNotification(id, userId);
 

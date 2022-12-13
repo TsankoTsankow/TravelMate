@@ -41,6 +41,7 @@ namespace TravelMate.Controllers
 
             await categoryService.Add(model);
 
+
             return RedirectToAction("AllCategories");
         }
 

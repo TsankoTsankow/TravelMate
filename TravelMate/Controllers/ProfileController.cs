@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Profile;
 using TravelMate.Extension;
@@ -61,7 +62,10 @@ namespace TravelMate.Controllers
             }
 
             var url = await photoService.UploadPhoto(model.ProfilePicture);
+
             await profileService.Edit(User.Id(), model, url);
+
+            TempData[MessageConstants.SuccessMessage] = "Profile successfully edited!";
 
             return RedirectToAction("ViewProfile", "Profile", new {@id = User.Id()});
         }

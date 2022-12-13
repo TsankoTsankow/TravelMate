@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.ApplicationUser;
 using TravelMate.Core.Models.Notifications;

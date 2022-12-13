@@ -33,6 +33,7 @@ namespace TravelMate.Controllers
             if (await friendService.UsersAreFriends(userId, id))
             {
                 TempData[MessageConstants.ErrorMessage] = "This user is already your friend";
+
                 return RedirectToAction("ViewProfile", "Profile", new {@id = id});
             }
 
@@ -44,6 +45,8 @@ namespace TravelMate.Controllers
             }
 
             await notificationService.SendFriendRequest(userId, id);
+
+            TempData[MessageConstants.SuccessMessage] = "Friend request sent";
 
             return RedirectToAction("ViewProfile", "Profile", new { @id = id });
         }
