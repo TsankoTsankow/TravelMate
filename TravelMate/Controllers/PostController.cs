@@ -13,19 +13,22 @@ namespace TravelMate.Controllers
         private readonly ICategoryService categoryService;
         private readonly ILikeService likeService;
         private readonly INotificationService notificationService;
+        private readonly IPhotoService photoService;
 
         public PostController(
             IPostService _postService,
             ICountryService _countryService,
             ICategoryService _categoryService,
             ILikeService _likeService,
-            INotificationService _notificationService)
+            INotificationService _notificationService,
+            IPhotoService _photoService)
         {
             this.postService = _postService;
             this.countryService = _countryService;
             this.categoryService = _categoryService;
             this.likeService = _likeService;
             this.notificationService = _notificationService;
+            this.photoService = _photoService;
         }
 
         [HttpGet]
@@ -52,10 +55,11 @@ namespace TravelMate.Controllers
             }
 
             var userId = User.Id();
+            var url = await photoService.UploadPhoto(post.File);
 
             try
             {
-                await postService.CreatePost(post, userId);
+                await postService.CreatePost(post, userId, url);
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception)
@@ -99,7 +103,8 @@ namespace TravelMate.Controllers
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
-            await postService.Edit(model, model.Id);
+            var url = await photoService.UploadPhoto(model.File);
+            await postService.Edit(model, model.Id, url);
 
             return RedirectToAction("Index", "Home");
         }

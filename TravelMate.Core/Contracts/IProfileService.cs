@@ -7,8 +7,7 @@ namespace TravelMate.Core.Contracts
     {
         Task<PersonalProfileViewModel> DisplayProfileById(string Id);
 
-        Task Edit(string Id, EditProfileViewModel model);
+        Task Edit(string Id, EditProfileViewModel model, string? url);
 
-        Task<string> UploadPhoto(IFormFile? photo);
     }
 }

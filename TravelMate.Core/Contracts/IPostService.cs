@@ -5,10 +5,10 @@ namespace TravelMate.Core.Contracts
 {
     public interface IPostService
     {
-        Task CreatePost(CreatePostViewModel post, string userId);
+        Task CreatePost(CreatePostViewModel post, string userId, string? url);
         Task<IEnumerable<PostViewModel>> GetAllPostsByUserId(string userId);
 
-        Task Edit(EditPostViewModel model, int postId);
+        Task Edit(EditPostViewModel model, int postId, string? url);
 
         Task<EditPostViewModel> GetPostById(int postId);
 

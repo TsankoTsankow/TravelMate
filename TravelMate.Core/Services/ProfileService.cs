@@ -41,7 +41,7 @@ namespace TravelMate.Core.Services
             return profile;
         }
 
-        public async Task Edit(string userId, EditProfileViewModel model)
+        public async Task Edit(string userId, EditProfileViewModel model, string? url)
         {
             var user = await context.Users.FirstAsync(u => u.Id == userId);
 
@@ -49,9 +49,10 @@ namespace TravelMate.Core.Services
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.CountryId = model.CountryId;
-            if (model.ProfilePicture != null)
+
+            if (!string.IsNullOrEmpty(url))
             {
-                user.ProfilePictureUrl = await UploadPhoto(model.ProfilePicture);
+                user.ProfilePictureUrl = url;
             }
 
             if (model.BirthDate != null)
@@ -60,37 +61,6 @@ namespace TravelMate.Core.Services
             }
 
             await context.SaveChangesAsync();
-        }
-
-        public async Task<string> UploadPhoto(IFormFile? photo)
-        {
-            var FileDir = "Images";
-
-            string FilePath = Path.Combine(hostingEnv.WebRootPath, FileDir);
-
-            var photoName = Path.GetFileNameWithoutExtension(photo.FileName);
-
-            var photoExtension = Path.GetExtension(photo.FileName);
-
-            var fileName = photoName + DateTime.Now.ToString("MMddyyyyHHmmss") + photoExtension;
-
-            var filePath = Path.Combine(FilePath, fileName);
-
-            var photoUrl = Path.Combine(hostingEnv.WebRootPath, "\\Images\\", fileName);
-
-            if (photo.Length <= 3145728)
-            {
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await photo.CopyToAsync(stream);
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Picture is too big");
-            }
-
-            return photoUrl;
         }
 
         private DateTime dateConvert(string date)

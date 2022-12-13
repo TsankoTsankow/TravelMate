@@ -9,12 +9,17 @@ namespace TravelMate.Controllers
     {
         private readonly IProfileService profileService;
         private readonly ICountryService countryService;
+        private readonly IPhotoService photoService;
 
-        public ProfileController(IProfileService _profileService,
-            ICountryService _countryService)
+
+        public ProfileController(
+            IProfileService _profileService,
+            ICountryService _countryService,
+            IPhotoService _photoService)
         {
             this.profileService = _profileService;
             this.countryService = _countryService;
+            this.photoService = _photoService;
         }
 
         public async Task<IActionResult> ViewProfile(string id)
@@ -55,7 +60,8 @@ namespace TravelMate.Controllers
                 return View(model);
             }
 
-            await profileService.Edit(User.Id(), model);
+            var url = await photoService.UploadPhoto(model.ProfilePicture);
+            await profileService.Edit(User.Id(), model, url);
 
             return RedirectToAction("ViewProfile", "Profile", new {@id = User.Id()});
         }

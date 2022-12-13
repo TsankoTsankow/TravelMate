@@ -24,7 +24,7 @@ namespace TravelMate.Core.Services
         }
                 
 
-        public async Task CreatePost(CreatePostViewModel model, string userId)
+        public async Task CreatePost(CreatePostViewModel model, string userId, string? url)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -32,7 +32,6 @@ namespace TravelMate.Core.Services
             {
                 throw new ArgumentException("No such user");
             }
-
 
             var post = new Post()
             {
@@ -44,9 +43,9 @@ namespace TravelMate.Core.Services
                 CountryId = model.CountryId,
             };
 
-            if (model.File != null)
+            if (!string.IsNullOrEmpty(url))
             {
-                post.PhotoUrl = await profileService.UploadPhoto(model.File);
+                post.PhotoUrl = url;
             }
 
             await context.Posts.AddAsync(post);
@@ -55,14 +54,16 @@ namespace TravelMate.Core.Services
 
         public async Task Delete(int postId)
         {
-            var post = await context.Posts.FirstOrDefaultAsync(u => u.Id == postId);
+            var post = await context.Posts
+                .Where(p => p.IsDeleted == false)
+                .FirstOrDefaultAsync(u => u.Id == postId);
 
             post.IsDeleted = true;
 
             await context.SaveChangesAsync();
         }
 
-        public async Task Edit(EditPostViewModel model, int postId)
+        public async Task Edit(EditPostViewModel model, int postId, string? url)
         {
             var post = await context.Posts
                 .FindAsync(postId);
@@ -70,9 +71,9 @@ namespace TravelMate.Core.Services
             post.CategoryId = model.CategoryId;
             post.Content = model.Content;
             post.CountryId = model.CountryId;
-            if (model.File != null)
+            if (!string.IsNullOrEmpty(url))
             {
-                post.PhotoUrl = await profileService.UploadPhoto(model.File);
+                post.PhotoUrl = url;
             }
 
 
