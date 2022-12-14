@@ -50,45 +50,18 @@ namespace TravelMate.Core.Services
 
         public async Task AddFriend(string userId, string friendId)
         {
-            var user = await context.Users
-                .Where(u => u.Id == userId)
-                .Include(u => u.Friends)
-                .FirstOrDefaultAsync();
+            var user = await GetUserById(userId);
 
-            if (user == null)
-            {
-                throw new ArgumentException("Invalid user Id");
-            }
+            var friend = await GetUserById(friendId);
 
-            var friend = await context.Users
-                .Where(u => u.Id == friendId)
-                .Include(u => u.Friends)
-                .FirstOrDefaultAsync();
+            var userFriend = CreateUserFriendship(userId, user, friendId, friend);
 
-            if (friend == null)
-            {
-                throw new ArgumentException("Invalid friend Id");
-            }
-
-
-            var userFriend = new UserFriendship()
-            {
-                UserId = userId,
-                User = user,
-                UserFriendId = friendId,
-                UserFriend = friend
-            };
-
-            var friendUser = new UserFriendship()
-            {
-                UserId = friendId,
-                User = friend,
-                UserFriendId = userId,
-                UserFriend = user
-            };
+            var friendUser = CreateUserFriendship(friendId, friend, userId, user);
 
             user.Friends.Add(userFriend);
+
             friend.Friends.Add(friendUser);
+
             await context.SaveChangesAsync();
         }
 
@@ -105,5 +78,34 @@ namespace TravelMate.Core.Services
 
             return true;
         }
+
+        private async Task<ApplicationUser> GetUserById(string userId)
+        {
+            var user = await context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.Friends)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user Id");
+            }
+
+            return user;
+        }
+
+        private UserFriendship CreateUserFriendship(string userId, ApplicationUser user , string friendId, ApplicationUser friend)
+        {
+            UserFriendship userFriendship = new UserFriendship()
+            {
+                UserId = userId,
+                User = user,
+                UserFriendId = friendId,
+                UserFriend = friend
+            };
+
+            return userFriendship;
+        }
+        
     }
 }
