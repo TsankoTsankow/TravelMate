@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelMate.Core", "TravelMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelMate.Infrastructure", "TravelMate.Infrastructure\TravelMate.Infrastructure.csproj", "{CACEC8D7-E667-46DF-90C1-187F453DE2C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelMate.UnitTests", "TravelMate.UnitTests\TravelMate.UnitTests.csproj", "{D6F2196A-E225-4D23-A4C7-A88AA24BC316}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelMate.Tests", "TravelMate.UnitTests\TravelMate.Tests.csproj", "{D6F2196A-E225-4D23-A4C7-A88AA24BC316}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

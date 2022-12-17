@@ -6,10 +6,21 @@ namespace TravelMate.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        private bool seedDb;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, bool seed = true)
             : base(options)
         {
+            if (this.Database.IsRelational())
+            {
+                seed = true;
+            }
+            else
+            {
+                seed = false;
+            }
 
+            this.seedDb = seed;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -18,13 +29,16 @@ namespace TravelMate.Infrastructure.Data
             builder.ApplyConfiguration(new UserFriendshipConfiguration());
             builder.ApplyConfiguration(new CommentConfiguration());
             builder.ApplyConfiguration(new LikeConfiguration());
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new RoleConfiguration());
-            builder.ApplyConfiguration(new UserRoleConfiguration());
-            builder.ApplyConfiguration(new RegionConfiguration());
-            builder.ApplyConfiguration(new CountryConfiguration());
-            builder.ApplyConfiguration(new CategoryConfiguration());
 
+            if (this.seedDb)
+            {
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new RoleConfiguration());
+                builder.ApplyConfiguration(new UserRoleConfiguration());
+                builder.ApplyConfiguration(new RegionConfiguration());
+                builder.ApplyConfiguration(new CountryConfiguration());
+                builder.ApplyConfiguration(new CategoryConfiguration());
+            }
 
             base.OnModelCreating(builder);
         }
