@@ -78,16 +78,16 @@ namespace TravelMate.Tests.UnitTests
 
             this.Friendship = new UserFriendship()
             {
-                UserId = "Test2",
-                UserFriendId = "Test1"
+                UserId = "UserTestId1",
+                UserFriendId = "UserTestId2"
             };
 
             this.context.UserFriendships.Add(Friendship);
 
             this.Friendship = new UserFriendship()
             {
-                UserId = "Test1",
-                UserFriendId = "Test2"
+                UserId = "UserTestId2",
+                UserFriendId = "UserTestId1"
             };
 
             this.context.UserFriendships.Add(Friendship);
