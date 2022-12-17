@@ -26,23 +26,6 @@ namespace TravelMate.Tests.UnitTests
         {
             this.User = new ApplicationUser()
             {
-                Id = "UserTestId1",
-                UserName = "Test1",
-                NormalizedUserName = "test1",
-                Email = "test1@test.com",
-                NormalizedEmail = "test1@test.com",
-                FirstName = "Test1",
-                LastName = "Edno",
-                CountryId = 1,
-                Information = "Test text one",
-                BirthDate = DateTime.Now,
-                ProfilePictureUrl = "https://thumbs.dreamstime.com/b/profile-picture-vector-perfect-social-media-other-web-use-125320944.jpg"
-            };
-
-            this.context.Users.Add(this.User);
-
-            this.User = new ApplicationUser()
-            {
                 Id = "UserTestId2",
                 UserName = "Test2",
                 NormalizedUserName = "test2",
@@ -75,18 +58,36 @@ namespace TravelMate.Tests.UnitTests
 
             this.context.Users.Add(User);
 
+            this.User = new ApplicationUser()
+            {
+                Id = "UserTestId1",
+                UserName = "Test1",
+                NormalizedUserName = "test1",
+                Email = "test1@test.com",
+                NormalizedEmail = "test1@test.com",
+                FirstName = "Test1",
+                LastName = "Edno",
+                CountryId = 1,
+                Information = "Test text one",
+                BirthDate = DateTime.Now,
+                ProfilePictureUrl = "https://thumbs.dreamstime.com/b/profile-picture-vector-perfect-social-media-other-web-use-125320944.jpg"
+            };
+
+            this.context.Users.Add(this.User);
+
+
             this.Friendship = new UserFriendship()
             {
-                UserId = "Test1",
-                UserFriendId = "Test2"
+                UserId = "Test2",
+                UserFriendId = "Test1"
             };
 
             this.context.UserFriendships.Add(Friendship);
 
             this.Friendship = new UserFriendship()
             {
-                UserId = "Test2",
-                UserFriendId = "Test1"
+                UserId = "Test1",
+                UserFriendId = "Test2"
             };
 
             this.context.UserFriendships.Add(Friendship);
