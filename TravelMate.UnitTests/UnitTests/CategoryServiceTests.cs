@@ -127,7 +127,7 @@ namespace TravelMate.Tests.UnitTests
         [Test]
         public void EditCategory_ShouldThroughExceptionWithInvalidCategoryId()
         {
-            //Arrange: get the current count of categories
+            //Arrange: 
 
             //Arrange: set a variable of a category that is not existing
             var categoryId = int.MaxValue;
@@ -138,8 +138,7 @@ namespace TravelMate.Tests.UnitTests
                 Description = "Non existent description"
             };
 
-            //Act: invoke the Edit method
-            this.categoryService.Edit(editedCategory);
+            //Act: 
 
             //Assert the category is edited with the correct data
             Assert.That(async() => await this.categoryService.Edit(editedCategory), Throws.Exception.TypeOf<Exception>());
