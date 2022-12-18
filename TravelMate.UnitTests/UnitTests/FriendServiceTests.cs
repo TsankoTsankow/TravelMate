@@ -22,7 +22,7 @@ namespace TravelMate.Tests.UnitTests
 
             //Act: envoke the method for a couple of users that are friends and a couple that are not
             bool areFriends = this.friendService.UsersAreFriends(userId, friendId).Result;
-            bool areNotFriends = this.friendService.UsersAreFriends(userId, notFriend).Result;
+            bool areNotFriends = this.friendService.UsersAreFriends(friendId, notFriend).Result;
 
             //Assert should return true in the first case and false in the second
             Assert.That(areFriends, Is.True);

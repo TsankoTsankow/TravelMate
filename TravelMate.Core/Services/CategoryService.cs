@@ -14,6 +14,11 @@ namespace TravelMate.Core.Services
             this.context = _context;
         }
 
+        /// <summary>
+        /// Adds a new category to the database
+        /// </summary>
+        /// <param name="model">Gets the name and the description of the category</param>
+        /// <returns></returns>
         public async Task Add(EditCategoryViewModel model)
         {
             var category = new Category()
@@ -26,6 +31,12 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Edits the information for an already created category
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task Edit(EditCategoryViewModel model)
         {
             var category = await context.Categories
@@ -42,6 +53,10 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Gets a list with basic data about all the categories in the DB
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CategoryViewModel>> GetAllCategories()
         {
             var categories = await context.Categories
@@ -56,6 +71,10 @@ namespace TravelMate.Core.Services
             return categories;
         }
 
+        /// <summary>
+        /// Gets the names of all the categories in the DB
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<string>> GetAllCategoriesNames()
         {
             return await context.Categories
@@ -64,6 +83,11 @@ namespace TravelMate.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Returns the category with all its information based on its Id
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         public async Task<EditCategoryViewModel> GetCategoryById(int categoryId)
         {
             return await context.Categories

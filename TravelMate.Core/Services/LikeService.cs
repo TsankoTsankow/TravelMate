@@ -13,6 +13,13 @@ namespace TravelMate.Core.Services
             this.context = _context;
         }
 
+
+        /// <summary>
+        /// Creates a new Like entity and adds it to the collection of the user who liked the post 
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task AddLike(int postId, string userId)
         {
             var user = await context.Users
@@ -30,6 +37,12 @@ namespace TravelMate.Core.Services
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Checks if the user, who is trying to add a like to a certain post, has already liked it
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <param name="userId"></param>
+        /// <returns>True or false</returns>
         public async Task<bool> UserLikedPost(int postId, string userId)
         {
             return await context.Likes
