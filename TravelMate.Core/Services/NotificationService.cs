@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
-using TravelMate.Core.Models.ApplicationUser;
 using TravelMate.Core.Models.Notifications;
 using TravelMate.Infrastructure.Data;
 using TravelMate.Infrastructure.Data.Enums;
@@ -16,18 +15,7 @@ namespace TravelMate.Core.Services
             this.context = _context;
         }
 
-        public async Task<IEnumerable<UserPostsViewModel>> GetAllUsers()
-        {
-            var users = await context.Users.Select(u => new UserPostsViewModel()
-            {
-                Id = u.Id,
-                Username = u.UserName,
-                Email = u.Email
-            }).ToListAsync();
-
-            return users;
-        }
-
+        
         public async Task<IEnumerable<NotificationViewModel>> GetNotificationsByUserId(string id)
         {
             var result = await context.Notifications
@@ -48,21 +36,9 @@ namespace TravelMate.Core.Services
 
         public async Task SendFriendRequest(string userId, string friendId)
         {
-            var user = await context.Users
-                .FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await GetUserById(userId);
 
-            if (user == null)
-            {
-                throw new ArgumentException("Invalid user Id");
-            }
-
-            var friend = await context.Users
-                .FirstOrDefaultAsync(u => u.Id == friendId);
-
-            if (friend == null)
-            {
-                throw new ArgumentException("Invalid friend Id");
-            }
+            var friend = await GetUserById(friendId);
 
             var notification = new Notification()
             {
@@ -83,14 +59,15 @@ namespace TravelMate.Core.Services
         public async Task SendLikeNotification(int postId, string senderId)
         {
             var post = await context.Posts
-                .Where(p => p.Id == postId)
                 .Where(p => p.IsDeleted == false)
-                .FirstAsync();
+                .FirstOrDefaultAsync(p => p.Id == postId);
 
-            var sender = await context.Users
-                .Where(p => p.Id == senderId)
-                .Where(p => p.IsDeleted == false)
-                .FirstAsync();
+            if (post == null)
+            {
+                throw new ArgumentException("Invalid post Id");
+            }
+
+            var sender = await GetUserById(senderId);
 
             var notification = new Notification()
             {
@@ -104,6 +81,20 @@ namespace TravelMate.Core.Services
 
             await context.Notifications.AddAsync(notification);
             await context.SaveChangesAsync();
+        }
+
+        private async Task<ApplicationUser> GetUserById(string userId)
+        {
+            var user = await context.Users
+                .Where(u => u.IsDeleted == false)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user Id");
+            }
+
+            return user;
         }
         
     }

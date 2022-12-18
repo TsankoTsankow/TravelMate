@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using TravelMate.Core.Contracts;
+﻿using TravelMate.Core.Contracts;
 using TravelMate.Core.Services;
 
 namespace TravelMate.Tests.UnitTests
@@ -46,7 +40,7 @@ namespace TravelMate.Tests.UnitTests
             
             //Arrange: set variables to the ids of the user and the post that will get a like from the previous test
             var userId = this.User.Id;
-            var postId = this.Post.Id;
+            var postId = 1;
 
             //Arrange: set variables to the ids of a user and post that dont have a like 
             var negativeUserId = "UserTestId2";
@@ -57,7 +51,6 @@ namespace TravelMate.Tests.UnitTests
             bool negative = this.likeService.UserLikedPost(negativePostId, negativeUserId).Result;
 
             //Assert that the positive test is positive
-            //This test should be negative if it is run by itself!!!
             Assert.That(positive, Is.True);
 
             //Assert that the negative test is negative

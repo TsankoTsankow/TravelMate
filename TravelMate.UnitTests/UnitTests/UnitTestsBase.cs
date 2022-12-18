@@ -1,4 +1,7 @@
-﻿using TravelMate.Infrastructure.Data;
+﻿using Microsoft.Extensions.Hosting;
+using System.Reflection;
+using TravelMate.Infrastructure.Data;
+using TravelMate.Infrastructure.Data.Enums;
 using TravelMate.Tests.Mocks;
 
 namespace TravelMate.Tests.UnitTests
@@ -21,6 +24,8 @@ namespace TravelMate.Tests.UnitTests
         public Region Region { get; set; }
         public UserFriendship Friendship { get; set; }
         public Post Post { get; set; }
+        public Notification Notification { get; set; }
+        public Like Like { get; set; }
 
         private void SeedDatabase()
         {
@@ -161,6 +166,26 @@ namespace TravelMate.Tests.UnitTests
             };
 
             this.context.Posts.Add(Post);
+
+            this.Like = new Like()
+            {
+                PostId = 1,
+                UserId = "UserTestId1"
+            };
+
+            this.context.Likes.Add(Like);
+
+            this.Notification = new Notification()
+            {
+                NotificationType = NotificationType.PostLike,
+                Description = "User1 liked your post from yesterday",
+                UserId = "UserTestId1",
+                User = User,
+                SenderId = "UserTestId2",
+                IsRead = false
+            };
+
+            this.context.Notifications.Add(Notification);
 
             context.SaveChanges();
         }
