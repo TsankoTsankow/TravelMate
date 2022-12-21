@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
@@ -234,6 +235,29 @@ namespace TravelMate.Core.Services
                .FirstAsync();
 
             
+        }
+
+        public async Task<IEnumerable<PostViewModel>> GetAllPosts()
+        {
+            var posts = await context.Posts
+                .Where(p => p.IsDeleted == false)
+                .OrderByDescending(p => p.CreatedOn)
+                .Select(p => new PostViewModel()
+                {
+                    Id = p.Id,
+                    AuthorName = p.Author.UserName,
+                    AuthorId = p.AuthorId,
+                    PostTime = p.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
+                    Content = p.Content,
+                    Likes = p.Likes.Count(),
+                    Comments = p.Comments.Count(),
+                    Category = p.PostCategory.Name,
+                    PhotoUrl = p.PhotoUrl,
+                    Country = p.Country.Name
+                })
+                .ToListAsync();
+
+            return posts;
         }
     }
 }

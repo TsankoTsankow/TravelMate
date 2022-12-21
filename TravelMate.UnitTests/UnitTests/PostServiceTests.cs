@@ -256,6 +256,19 @@ namespace TravelMate.Tests.UnitTests
             Assert.That(post.PhotoUrl, Is.EqualTo(postInDb.PhotoUrl));
         }
 
+        [Test]
+        public void GetAllPosts_ShouldReturnCorrectNumberOfPosts()
+        {
+            //Arrange: get the number of posts in the DB
+            int numberOfPosts = this.context.Posts.Where(p => p.IsDeleted == false).Count();
+
+            //Act: envoke the method and get the number of posts
+            int posts = this.postService.GetAllPosts().Result.ToList().Count();
+
+            //Assert that both results are the same
+            Assert.That(posts, Is.EqualTo(numberOfPosts));
+        }
+
     }
 }
 

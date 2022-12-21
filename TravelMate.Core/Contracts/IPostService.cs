@@ -13,5 +13,6 @@ namespace TravelMate.Core.Contracts
         Task<IEnumerable<PostViewModel>> GetAllPostsByCategoryId(int categoryId);
         Task<AllPostsQueryModel> GetAllPostsQuery(string? category = null, string? country = null);
         Task<IEnumerable<PostViewModel>> GetAllPostsOfUserFriends(string id);
+        Task<IEnumerable<PostViewModel>> GetAllPosts();
     }
 }
