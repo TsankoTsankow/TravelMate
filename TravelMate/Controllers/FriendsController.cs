@@ -38,7 +38,7 @@ namespace TravelMate.Controllers
 
             return RedirectToAction("ViewProfile", "Profile", new { @id = id });
         }
-
+                
         public async Task<IActionResult> ViewAllFriends(string id)
         {
             var model = await friendService.GetAllFriends(id);

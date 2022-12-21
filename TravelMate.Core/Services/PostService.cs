@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
 using TravelMate.Infrastructure.Data;
@@ -9,27 +10,26 @@ namespace TravelMate.Core.Services
     public class PostService : IPostService
     {
         private readonly ApplicationDbContext context;
-        private readonly IProfileService profileService;
         private readonly IFriendService friendService;
 
         public PostService(
             ApplicationDbContext _context,
-            IProfileService _profileService,
             IFriendService _friendService)
         {
             this.context = _context;
-            this.profileService = _profileService;
             this.friendService = _friendService;
         }
                 
 
         public async Task CreatePost(CreatePostViewModel model, string userId, string? url)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await context.Users
+                .Where(u => u.IsDeleted == false)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user is null)
             {
-                throw new ArgumentException("No such user");
+                throw new ArgumentException("Invalid user Id");
             }
 
             var post = new Post()
@@ -57,6 +57,11 @@ namespace TravelMate.Core.Services
                 .Where(p => p.IsDeleted == false)
                 .FirstOrDefaultAsync(u => u.Id == postId);
 
+            if (post is null)
+            {
+                throw new ArgumentException("Invalid post Id");
+            }
+
             post.IsDeleted = true;
 
             await context.SaveChangesAsync();
@@ -65,11 +70,18 @@ namespace TravelMate.Core.Services
         public async Task Edit(EditPostViewModel model, int postId, string? url)
         {
             var post = await context.Posts
-                .FindAsync(postId);
+                .Where(p => p.IsDeleted == false)
+                .FirstOrDefaultAsync(p => p.Id == postId);
+
+            if (post == null)
+            {
+                throw new ArgumentException("Invalid post Id");
+            }
 
             post.CategoryId = model.CategoryId;
             post.Content = model.Content;
             post.CountryId = model.CountryId;
+
             if (!string.IsNullOrEmpty(url))
             {
                 post.PhotoUrl = url;

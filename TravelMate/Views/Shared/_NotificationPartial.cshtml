@@ -6,9 +6,7 @@
         <h6>@Model.Description</h6>
     </div>
     <div class="col-md-2">
-        <form asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.SenderId" method="post">
-            <input class="btn btn-primary btn-sm" type="submit" value="View profile" />
-        </form>
+        <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.SenderId">View Profile</a>
     </div>
     <div class="col-md-2">
         @if (Model.NotificationType == 0)

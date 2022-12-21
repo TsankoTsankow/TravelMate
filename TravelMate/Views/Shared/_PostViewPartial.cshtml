@@ -14,9 +14,7 @@
     }      
     <div class="col-md-8">
         <h4>@Model.AuthorName</h4>
-        <form asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.AuthorId" method="post">
-            <input class="btn btn-outline-success btn-sm" type="submit" value="View profile" />
-        </form>
+        <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.AuthorId">View Profile</a>
         <p>@Model.Content</p>
         <p> Location: @Model.Country</p>
         <p> Added: @Model.PostTime</p>

@@ -23,6 +23,7 @@ namespace TravelMate.Controllers
             this.photoService = _photoService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> ViewProfile(string id)
         {
             var model = await profileService.DisplayProfileById(id);
@@ -30,6 +31,7 @@ namespace TravelMate.Controllers
             return View(model);
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> Edit()
         {
