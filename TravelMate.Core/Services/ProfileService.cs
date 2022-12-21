@@ -38,7 +38,14 @@ namespace TravelMate.Core.Services
 
         public async Task Edit(string userId, EditProfileViewModel model, string? url)
         {
-            var user = await context.Users.FirstAsync(u => u.Id == userId);
+            var user = await context.Users
+                .Where(u => u.IsDeleted == false)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("This user Id does not exist");
+            }
 
             user.Information = model.Information;
             user.FirstName = model.FirstName;

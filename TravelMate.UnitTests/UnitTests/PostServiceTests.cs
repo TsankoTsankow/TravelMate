@@ -228,7 +228,7 @@ namespace TravelMate.Tests.UnitTests
         public void GetPostById_ShouldReturnCorrectPost()
         {
             //Arrange: set the id of the post to a variable and get the post from the context
-            int postId = Post.Id;
+            int postId = 1;
             var postInDb = this.context.Posts.FirstOrDefault(p => p.Id == postId);
 
             //Act: envoke the method and get the posts with the given Id
@@ -244,7 +244,7 @@ namespace TravelMate.Tests.UnitTests
         public void GetPostInfoByPostId_ShouldReturnCorrectPostInfo()
         {
             //Arrange: set the id of the post to a variable and get the post from the context
-            int postId = Post.Id;
+            int postId = 1;
             var postInDb = this.context.Posts.FirstOrDefault(p => p.Id == postId);
 
             //Act: envoke the method and get the posts with the given Id
