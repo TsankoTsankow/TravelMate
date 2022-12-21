@@ -224,6 +224,38 @@ namespace TravelMate.Tests.UnitTests
             Assert.That(postsByMethod, Is.EqualTo(postsOfUserFriends));
         }
 
+        [Test]
+        public void GetPostById_ShouldReturnCorrectPost()
+        {
+            //Arrange: set the id of the post to a variable and get the post from the context
+            int postId = Post.Id;
+            var postInDb = this.context.Posts.FirstOrDefault(p => p.Id == postId);
+
+            //Act: envoke the method and get the posts with the given Id
+            var post = this.postService.GetPostById(postId).Result;
+
+            //Assert that both results are the same
+            Assert.That(post.Content, Is.EqualTo(postInDb.Content));
+            Assert.That(post.AuthorId, Is.EqualTo(postInDb.AuthorId));
+            Assert.That(post.CategoryId, Is.EqualTo(postInDb.CategoryId));
+        }
+
+        [Test]
+        public void GetPostInfoByPostId_ShouldReturnCorrectPostInfo()
+        {
+            //Arrange: set the id of the post to a variable and get the post from the context
+            int postId = Post.Id;
+            var postInDb = this.context.Posts.FirstOrDefault(p => p.Id == postId);
+
+            //Act: envoke the method and get the posts with the given Id
+            var post = this.postService.GetPostInfoByPostId(postId).Result;
+
+            //Assert that both results are the same
+            Assert.That(post.Content, Is.EqualTo(postInDb.Content));
+            Assert.That(post.AuthorId, Is.EqualTo(postInDb.AuthorId));
+            Assert.That(post.PhotoUrl, Is.EqualTo(postInDb.PhotoUrl));
+        }
+
     }
 }
 
