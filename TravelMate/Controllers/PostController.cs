@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Post;
@@ -6,6 +7,7 @@ using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         private readonly IPostService postService;

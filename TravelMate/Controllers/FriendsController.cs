@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
 using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
+    [Authorize]
     public class FriendsController : Controller
     {
         private readonly IFriendService friendService;

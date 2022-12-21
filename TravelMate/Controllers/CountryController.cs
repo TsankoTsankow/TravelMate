@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.CountryModels;
 
