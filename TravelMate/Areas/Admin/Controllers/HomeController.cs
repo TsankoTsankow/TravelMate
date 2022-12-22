@@ -11,7 +11,7 @@ namespace TravelMate.Areas.Admin.Controllers
 
         public HomeController(IPostService _postService)
         {
-              this.postService = _postService;
+            this.postService = _postService;
         }
         
         [HttpGet]
@@ -21,5 +21,7 @@ namespace TravelMate.Areas.Admin.Controllers
 
             return View(model);
         }
+
+        
     }
 }

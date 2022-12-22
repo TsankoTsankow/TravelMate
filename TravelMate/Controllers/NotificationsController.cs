@@ -20,7 +20,7 @@ namespace TravelMate.Controllers
             this.friendService = friendService;
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var model = await notificationService.GetNotificationsByUserId(User.Id());
@@ -28,6 +28,7 @@ namespace TravelMate.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> SendFriendRequest(string id)
         {
             string userId = User.Id();

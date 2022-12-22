@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelMate.Core.Contracts;
 using TravelMate.Core.Models.Notifications;
+using TravelMate.Core.Models.Post;
 using TravelMate.Infrastructure.Data;
 using TravelMate.Infrastructure.Data.Enums;
 
@@ -15,7 +16,7 @@ namespace TravelMate.Core.Services
             this.context = _context;
         }
 
-        
+
         public async Task<IEnumerable<NotificationViewModel>> GetNotificationsByUserId(string id)
         {
             var result = await context.Notifications
