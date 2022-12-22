@@ -1,0 +1,38 @@
+﻿@model PostCommentsViewModel
+
+<div class="row">
+    @if (!string.IsNullOrEmpty(Model.Post.PhotoUrl))
+    {
+        <div class="col-md-4">
+            <img class="card-img-top" src="@Model.Post.PhotoUrl" alt="Post Image">
+        </div>
+    }
+    <div class="col-md-8">
+        <h4>@Model.Post.AuthorName</h4>
+        <a class="btn btn-outline-primary btn-sm" asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.Post.AuthorId">View Profile</a>
+        <p>@Model.Post.Content</p>
+        <p> Location: @Model.Post.Country</p>
+        <p> Added: @Model.Post.PostTime</p>
+        <p> Category: @Model.Post.Category </p>
+        <p>Likes: <b>@Model.Post.Likes</b></p>
+        <br />
+    </div>
+</div>
+<p></p>
+<br />
+<p></p>
+<div class="d-flex flex-column justify-content-center">
+    @if (!Model.Comments.Any())
+    {
+        <div class="text-center mb-3">
+            <h6>This post has no comments yet!</h6>
+        </div>
+    }
+    @foreach (var comment in Model.Comments)
+    {
+
+        <partial name="_CommentViewPartial" model="@comment" />
+        <p></p>
+        <hr />
+    }
+</div>

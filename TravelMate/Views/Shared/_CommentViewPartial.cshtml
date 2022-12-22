@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TravelMate.Infrastructure.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model CommentViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <a asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.User.Id">@Model.User.UserName</a>
+        </div>
+        <div class="col-md-2">
+            <p>@Model.CreatedOn</p>
+        </div>
+        <div class="col-md-2">
+            @if (UserManager.GetUserId(User) == Model.User.Id)
+            {
+                <p>Edit</p>
+            }
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <p>@Model.Content</p>
+        </div>
+    </div>
+</div>
