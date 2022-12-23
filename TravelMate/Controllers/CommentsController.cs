@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
+using TravelMate.Core.Models.CategoryModels;
+using TravelMate.Core.Models.Comments;
+using TravelMate.Core.Services;
+using TravelMate.Extension;
 
 namespace TravelMate.Controllers
 {
@@ -29,6 +34,29 @@ namespace TravelMate.Controllers
             var model = await commentService.GetPostComments(post);
 
             return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult AddComment()
+        {
+            var model = new AddCommentViewModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(AddCommentViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("AddComment", model);
+            }
+
+            string userId = User.Id();
+            await commentService.Add(model, userId);
+
+            return RedirectToAction("ViewPostComments", new {@id = model.Id});
         }
     }
 }
