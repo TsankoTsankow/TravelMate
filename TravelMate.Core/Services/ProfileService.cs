@@ -69,9 +69,16 @@ namespace TravelMate.Core.Services
         {
             DateTime result;
             CultureInfo provider = CultureInfo.InvariantCulture;
-            string format = "d";
+            string format = "dd/MM/yyyy";
+            try
+            {
+                result = DateTime.ParseExact(date, format, provider);
+            }
+            catch (Exception)
+            {
 
-            result = DateTime.ParseExact(date, format, provider);
+                throw new FormatException("The date is not in the correct format");
+            }
 
             return result;
         }

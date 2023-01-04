@@ -15,10 +15,7 @@
         <p> Added: @Model.Post.PostTime</p>
         <p> Category: @Model.Post.Category </p>
         <p>Likes: <b>@Model.Post.Likes</b></p>
-        @*<a class="btn btn-success btn-sm" asp-controller="Comments" asp-action="AddComment" asp-route-id="@Model.Post.Id">Add Comment</a>*@
-        <form asp-area="" asp-controller="Comments" asp-action="AddComment" asp-route-id="@Model.Post.Id" method="post">
-            <input class="btn btn-success btn-sm" type="submit" value="Add Comment" />
-        </form>
+        <a class="btn btn-success btn-sm" asp-controller="Comments" asp-action="AddComment" asp-route-id="@Model.Post.Id">Add Comment</a>
         <br />
     </div>
 </div>

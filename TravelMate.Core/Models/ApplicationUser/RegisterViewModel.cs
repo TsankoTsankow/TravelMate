@@ -9,6 +9,7 @@ namespace TravelMate.Core.Models.ApplicationUser
         public string UserName { get; set; } = null!;
 
         [Required]
+        [EmailAddress]
         [StringLength(60, MinimumLength = 10)]
         public string Email { get; set; } = null!;
 

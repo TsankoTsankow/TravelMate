@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TravelMate.Core.Constants;
 using TravelMate.Core.Contracts;
-using TravelMate.Core.Models.CategoryModels;
 using TravelMate.Core.Models.Comments;
-using TravelMate.Core.Services;
 using TravelMate.Extension;
 
 namespace TravelMate.Controllers
@@ -38,9 +35,10 @@ namespace TravelMate.Controllers
 
 
         [HttpGet]
-        public IActionResult AddComment()
+        public IActionResult AddComment(int id)
         {
             var model = new AddCommentViewModel();
+            model.Id = id;
 
             return View(model);
         }
