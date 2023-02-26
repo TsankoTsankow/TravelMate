@@ -5,35 +5,48 @@
 
 @model PostViewModel
 
-<div class="row">
-    @if (!string.IsNullOrEmpty(Model.PhotoUrl))
-    {
-        <div class="col-md-4">
-            <img class="card-img-top" src="@Model.PhotoUrl" alt="Post Image">
-        </div>
-    }      
-    <div class="col-md-8">
-        <h4>@Model.AuthorName</h4>
-        <a class="btn btn-outline-primary btn-sm" asp-area="" asp-controller="Profile" asp-action="ViewProfile" asp-route-id="@Model.AuthorId">View Profile</a>
-        <p>@Model.Content</p>
-        <p> Location: @Model.Country</p>
-        <p> Added: @Model.PostTime</p>
-        <p> Category: @Model.Category </p>
-        <p>Likes: <b>@Model.Likes</b></p>
-        <br />
-        @if (UserManager.GetUserId(User) != Model.AuthorId)
+<div class="card mb-3">
+    <div class="row g-0">
+        @if (!string.IsNullOrEmpty(Model.PhotoUrl))
         {
-            <div class="btn-group">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Like" asp-action="LikePost" asp-route-id="@Model.Id">Like</a>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Comments" asp-action="ViewPostComments" asp-route-id="@Model.Id">Comments (@Model.Comments)</a>
+            <div class="col-md-4">
+                <img class="card-img-top" src="@Model.PhotoUrl" alt="Post Image">
             </div>
         }
         else
         {
-
-            <a asp-area="" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">Edit</a>
-            <a asp-area="" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">Delete</a>
+            <div class="col-md-4">
+                <div class="card-img-top" style="background-color: white; height: 250px;"></div>
+            </div>
         }
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="@Url.Action("ViewProfile", "Profile", new { id = Model.AuthorId })">@Model.AuthorName</a>
+                </h5>
+                <p class="card-text">@Model.Content</p>
+                <p class="card-text"><small class="text-muted">@Model.PostTime</small></p>
+                <p class="card-text"><b>Location:</b> @Model.Country</p>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Category:</b> @Model.Category</h6>
+                <p class="card-text"><b>Likes:</b> @Model.Likes</p>
+                <br />
+                @if (UserManager.GetUserId(User) != Model.AuthorId)
+                {
+                    <div class="btn-group btn-group-no-outline">
+                        <a class="btn  btn-sm" asp-area="" asp-controller="Like" asp-action="LikePost" asp-route-id="@Model.Id">
+                            <i class="fa-regular fa-thumbs-up"></i> <!-- Font Awesome icon for a thumb up -->
+                        </a>
+                        <a class="btn  btn-sm" asp-area="" asp-controller="Comments" asp-action="ViewPostComments" asp-route-id="@Model.Id">Comments (@Model.Comments)</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="btn-group btn-group-no-outline">
+                        <a asp-area="" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-area="" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>
-

@@ -70,6 +70,7 @@ namespace TravelMate.Core.Services
             DateTime result;
             CultureInfo provider = CultureInfo.InvariantCulture;
             string format = "dd/MM/yyyy";
+
             try
             {
                 result = DateTime.ParseExact(date, format, provider);
